@@ -15,14 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/webp" href="assets/logo.webp" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/chalk-animations.css" />
 
   <style>
-    /* ── Design tokens ─────────────────────────────────────────── */
-    :root {
-      --warm-bg: #fdf8f0;
-    }
+    :root { --warm-bg: #fdf8f0; }
 
-    /* ── Hero — campus photo, NO grid ──────────────────────────── */
+    /* Hero — campus photo, NO grid */
     .hero {
       background:
         linear-gradient(to bottom,
@@ -34,11 +32,11 @@
     }
     .hero__grid-overlay { display: none !important; }
 
-    /* ── Wave dividers ──────────────────────────────────────────── */
+    /* Wave dividers */
     .wave { display: block; width: 100%; line-height: 0; overflow: hidden; }
     .wave svg { display: block; width: 100%; }
 
-    /* ── Warm cream sections ────────────────────────────────────── */
+    /* Warm sections */
     .section--warm {
       background: var(--warm-bg);
       color: #1a1a2e;
@@ -62,108 +60,7 @@
     }
     .section--warm .value-card__icon-wrap { background: rgba(192,57,43,0.07); }
 
-    /* ── Chalk accent — the Maya method ────────────────────────── */
-    /* Positioned absolutely inside their parent section.
-       On warm/light bg: dark lines at very low opacity = subtle watermark.
-       On dark bg: inverted to white lines at low opacity. */
-    .chalk-accent {
-      position: absolute;
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-    }
-    /* Warm section treatment — faint dark watermark */
-    .section--warm .chalk-accent {
-      opacity: 0.10;
-      filter: none;
-    }
-    /* Dark section treatment — white chalk lines */
-    .section--light .chalk-accent,
-    .section--navy .chalk-accent {
-      opacity: 0.08;
-      filter: invert(1) brightness(1.2);
-    }
-
-    /* All content inside sections sits above chalk accents */
-    .section--warm .container,
-    .section--light .container { position: relative; z-index: 1; }
-
-    /* ── How It Works chalk accents ─────────────────────────────── */
-    /* Bag — behind step 1, right side */
-    .chalk-bag-accent {
-      width: 220px;
-      bottom: 20px;
-      right: -30px;
-    }
-    /* Truck — behind step 3, right side */
-    .chalk-truck-accent {
-      width: 340px;
-      bottom: -10px;
-      right: -20px;
-    }
-    /* Laundry — behind step 4, left side */
-    .chalk-laundry-accent {
-      width: 180px;
-      bottom: 20px;
-      left: -20px;
-    }
-
-    /* ── FAQ section — bubbles as background texture ─────────────── */
-    .faq-section {
-      background: var(--warm-bg);
-      color: #1a1a2e;
-      position: relative;
-      overflow: hidden;
-    }
-    .faq-section .faq-question { color: var(--color-navy); }
-    .faq-section .faq-answer__inner { color: #5a5a7a; }
-    .faq-section .faq-item { border-bottom-color: rgba(0,0,0,0.1); }
-    .faq-section .section-label { color: var(--color-red); }
-    .faq-section .container { position: relative; z-index: 1; }
-
-    .chalk-bubbles-bg {
-      width: 280px;
-      top: -20px;
-      right: -40px;
-      opacity: 0.09;
-      filter: none;
-    }
-    .chalk-bubbles-bl {
-      width: 200px;
-      bottom: -20px;
-      left: -30px;
-      opacity: 0.07;
-      filter: none;
-    }
-
-    /* ── CTA banner — bubbles texture ───────────────────────────── */
-    .cta-banner {
-      background: linear-gradient(135deg, var(--color-red) 0%, #8b1a1a 100%);
-      text-align: center;
-      padding: 52px 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-banner .container { position: relative; z-index: 1; }
-    .cta-banner .section-label { color: rgba(255,255,255,0.7); }
-    .cta-banner h2 { margin-bottom: 12px; }
-    .cta-banner p { color: rgba(255,255,255,0.82); font-size: 0.97rem; line-height: 1.7; margin-bottom: 28px; }
-    .chalk-cta-bubbles {
-      width: 260px;
-      top: -30px;
-      right: -20px;
-      opacity: 0.12;
-      filter: invert(1) brightness(1.3);
-    }
-    .chalk-cta-laundry {
-      width: 160px;
-      bottom: -10px;
-      left: -10px;
-      opacity: 0.10;
-      filter: invert(1) brightness(1.3);
-    }
-
-    /* ── Campus section ─────────────────────────────────────────── */
+    /* Campus section */
     .campus-section { background: var(--color-navy); padding: 0; overflow: hidden; }
     .campus-img-wrap { position: relative; width: 100%; height: 240px; overflow: hidden; }
     .campus-img-wrap img {
@@ -181,6 +78,41 @@
     .campus-body { padding: 32px 0 40px; text-align: center; }
     .campus-body h2 { margin-bottom: 10px; }
     .campus-body p { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.75; max-width: 520px; margin: 0 auto 24px; }
+
+    /* FAQ */
+    .faq-section { background: var(--warm-bg); color: #1a1a2e; position: relative; overflow: hidden; }
+    .faq-section .faq-question { color: var(--color-navy); }
+    .faq-section .faq-answer__inner { color: #5a5a7a; }
+    .faq-section .faq-item { border-bottom-color: rgba(0,0,0,0.1); }
+    .faq-section .section-label { color: var(--color-red); }
+    .faq-section .container { position: relative; z-index: 1; }
+
+    /* CTA */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--color-red) 0%, #8b1a1a 100%);
+      text-align: center;
+      padding: 52px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner .container { position: relative; z-index: 1; }
+    .cta-banner .section-label { color: rgba(255,255,255,0.7); }
+    .cta-banner h2 { margin-bottom: 12px; }
+    .cta-banner p { color: rgba(255,255,255,0.82); font-size: 0.97rem; line-height: 1.7; margin-bottom: 28px; }
+
+    /* Bag display in stats bar area — sits right of the bar on desktop */
+    .stats-bar { position: relative; overflow: hidden; }
+    .stats-chalk-bag {
+      display: none; /* hidden on mobile */
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 72px;
+      filter: invert(1) brightness(1.3);
+      opacity: 0.45;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -246,8 +178,9 @@
     </div>
   </section>
 
-  <!-- STATS BAR -->
+  <!-- STATS BAR — chalk bag peeks in on desktop -->
   <div class="stats-bar" aria-label="Key stats">
+    <img src="assets/images/chalk_bag.png" alt="" aria-hidden="true" class="stats-chalk-bag" />
     <div class="container">
       <div class="stats-bar__inner">
         <div class="stat-item"><div class="stat-item__number">48hr</div><div class="stat-item__label">Turnaround</div></div>
@@ -265,32 +198,8 @@
     </svg>
   </div>
 
-  <!-- HOW IT WORKS
-       Chalk illustrations as contextual watermarks behind relevant steps.
-       Bag behind step 1, truck behind step 3, laundry behind step 4. -->
+  <!-- HOW IT WORKS — warm cream, no chalk overlays here (they're on dark sections) -->
   <section class="section section--warm" id="how-it-works" aria-labelledby="hiw-title">
-
-    <!-- Chalk bag — watermark, bottom-right, behind step 1 area -->
-    <img src="assets/images/chalk_bag.png"
-         alt=""
-         aria-hidden="true"
-         class="chalk-accent chalk-bag-accent"
-         style="width:200px; bottom:60%; right:-10px;" />
-
-    <!-- Chalk truck — watermark, bottom-right, behind step 3 area -->
-    <img src="assets/images/chalk_truck.png"
-         alt=""
-         aria-hidden="true"
-         class="chalk-accent chalk-truck-accent"
-         style="width:320px; bottom:10px; right:-20px;" />
-
-    <!-- Chalk laundry — watermark, bottom-left -->
-    <img src="assets/images/chalk_laundry.png"
-         alt=""
-         aria-hidden="true"
-         class="chalk-accent chalk-laundry-accent"
-         style="width:160px; bottom:8px; left:-10px;" />
-
     <div class="container">
       <div class="text-center">
         <span class="section-label">Simple Process</span>
@@ -338,9 +247,29 @@
     </svg>
   </div>
 
-  <!-- WHY PATRIOT -->
-  <section class="section section--light" aria-labelledby="why-title">
-    <div class="container">
+  <!-- ★ TRUCK DRIVE-ACROSS SECTION ★
+       The truck animates across the screen when this section scrolls into view.
+       Soap bubbles spawn from the exhaust as it drives. -->
+  <div class="truck-drive-section" id="truck-drive-section" aria-hidden="true">
+    <div class="truck-road"></div>
+    <div class="bubble-trail" id="bubble-trail"></div>
+    <img
+      src="assets/images/chalk_truck.png"
+      alt=""
+      id="truck-animated"
+      class="truck-animated"
+    />
+  </div>
+
+  <!-- WHY PATRIOT — dark section, chalk laundry visible in corner -->
+  <section class="section section--light" aria-labelledby="why-title" style="position: relative; overflow: hidden;">
+
+    <!-- Chalk laundry stack — bottom right, visible white on dark -->
+    <img src="assets/images/chalk_laundry.png"
+         alt="" aria-hidden="true"
+         style="position:absolute; bottom:-20px; right:-10px; width:160px; filter:invert(1) brightness(1.3); opacity:0.40; pointer-events:none; user-select:none; z-index:0;" />
+
+    <div class="container" style="position:relative; z-index:1;">
       <div class="text-center">
         <span class="section-label" style="color: var(--color-gold);">Why Patriot</span>
         <h2 class="section-title" id="why-title">Everything You Need,<br>Nothing You Don't</h2>
@@ -451,18 +380,10 @@
     </svg>
   </div>
 
-  <!-- FAQ — bubbles as background texture, not a decorative element -->
+  <!-- FAQ — bubbles as corner texture on warm bg -->
   <section class="section faq-section" aria-labelledby="faq-title">
-    <!-- Bubbles: top-right corner texture -->
-    <img src="assets/images/chalk_bubbles.png"
-         alt="" aria-hidden="true"
-         class="chalk-accent chalk-bubbles-bg"
-         style="width:260px; top:-10px; right:-30px;" />
-    <!-- Bubbles: bottom-left corner texture -->
-    <img src="assets/images/chalk_bubbles.png"
-         alt="" aria-hidden="true"
-         class="chalk-accent chalk-bubbles-bl"
-         style="width:180px; bottom:-10px; left:-20px; transform: scaleX(-1);" />
+    <img src="assets/images/chalk_bubbles.png" alt="" aria-hidden="true" class="faq-bubble-tr" />
+    <img src="assets/images/chalk_bubbles.png" alt="" aria-hidden="true" class="faq-bubble-bl" />
 
     <div class="container">
       <div class="text-center">
@@ -515,14 +436,10 @@
     </svg>
   </div>
 
-  <!-- CTA BANNER — bubbles and laundry as background texture -->
+  <!-- CTA BANNER — laundry stack visible in corner -->
   <section class="cta-banner" aria-labelledby="cta-title">
-    <img src="assets/images/chalk_bubbles.png" alt="" aria-hidden="true"
-         class="chalk-accent chalk-cta-bubbles"
-         style="width:240px; top:-20px; right:-20px;" />
     <img src="assets/images/chalk_laundry.png" alt="" aria-hidden="true"
-         class="chalk-accent chalk-cta-laundry"
-         style="width:150px; bottom:-10px; left:-10px;" />
+         class="cta-laundry-accent" />
     <div class="container">
       <span class="section-label">Ready to Start?</span>
       <h2 id="cta-title">Ditch the Dirty Clothes Pile.</h2>
@@ -573,5 +490,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/truck-animation.js"></script>
 </body>
 </html>
