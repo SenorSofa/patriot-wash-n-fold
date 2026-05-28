@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Contact — Patriot Wash N Fold</title>
+  <meta name="description" content="Contact Patriot Wash N Fold. Phone: 855-772-0700. Email: support@patriotwashnfold.com. Located in Carrollton, TX." />
+  <link rel="canonical" href="https://patriotwashnfold.com/contact" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/webp" href="assets/logo.webp" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo" aria-label="Patriot Wash N Fold Home">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="44" height="44" />
+          <div class="nav__logo-text">PATRIOT <span>Wash N Fold</span></div>
+        </a>
+        <div class="nav__links">
+          <a href="index.html">Home</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="contact.html" class="active">Contact</a>
+        </div>
+        <a href="pricing.html" class="btn btn--primary btn--inline btn--sm nav__cta-desktop">Get Started</a>
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="nav__mobile" id="nav-mobile" role="menu">
+        <a href="index.html" role="menuitem">Home</a>
+        <a href="pricing.html" role="menuitem">Pricing</a>
+        <a href="contact.html" role="menuitem" class="active">Contact</a>
+        <a href="pricing.html" class="btn btn--primary" role="menuitem" style="margin: 8px 20px 4px; width: calc(100% - 40px);">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label">We're Here to Help</span>
+      <h1>Get in Touch</h1>
+      <p class="page-hero__subtitle">Questions about your subscription, pickup schedule, or anything else — we've got you.</p>
+    </div>
+  </div>
+
+  <!-- QUICK CONTACT CARDS (mobile-first: tap to call/email) -->
+  <section class="section section--light" aria-label="Quick contact options">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px;">
+        <a href="tel:8557720700" class="info-card" style="text-decoration: none; display: block;" aria-label="Call us at 855-772-0700">
+          <div class="info-card__icon">📞</div>
+          <div class="info-card__title" style="font-size: 1rem;">Call Us</div>
+          <p class="info-card__desc" style="font-size: 0.82rem;">855-772-0700<br>Tap to call</p>
+        </a>
+        <a href="mailto:support@patriotwashnfold.com" class="info-card" style="text-decoration: none; display: block;" aria-label="Email us at support@patriotwashnfold.com">
+          <div class="info-card__icon">✉️</div>
+          <div class="info-card__title" style="font-size: 1rem;">Email Us</div>
+          <p class="info-card__desc" style="font-size: 0.82rem;">support@<br>patriotwashnfold.com</p>
+        </a>
+      </div>
+
+      <!-- Contact Info List -->
+      <div class="contact-info__item">
+        <div class="contact-info__icon" aria-hidden="true">📍</div>
+        <div>
+          <div class="contact-info__label">Office Address</div>
+          <div class="contact-info__value">
+            2760 E. Trinity Mills, Ste 112<br>
+            Carrollton, TX 75006
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-info__item">
+        <div class="contact-info__icon" aria-hidden="true">🕐</div>
+        <div>
+          <div class="contact-info__label">Office Hours</div>
+          <div class="contact-info__value">
+            Mon–Sat: 9am–6pm<br>
+            Sunday: Closed
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-info__item">
+        <div class="contact-info__icon" aria-hidden="true">🗓️</div>
+        <div>
+          <div class="contact-info__label">Service Schedule at DBU</div>
+          <div class="contact-info__value">
+            Pickup: Tuesdays, 12–2 PM<br>
+            Delivery: Thursdays, 12–2 PM<br>
+            <span style="font-size: 0.82rem; color: var(--color-text-muted);">Crowley Dormitory, DBU Campus</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section class="section" aria-labelledby="contact-form-heading">
+    <div class="container">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="form-card">
+          <h2 class="form-title" id="contact-form-heading">Send Us a Message</h2>
+          <p class="form-subtitle">We typically respond within one business day.</p>
+
+          <form id="contact-form-el" novalidate aria-label="Contact form">
+
+            <div class="form-group">
+              <label class="form-label" for="contact-first-name">First Name <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="text" id="contact-first-name" name="firstName" placeholder="Jane" required autocomplete="given-name" inputmode="text" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-last-name">Last Name <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="text" id="contact-last-name" name="lastName" placeholder="Smith" required autocomplete="family-name" inputmode="text" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="email" id="contact-email" name="email" placeholder="you@email.com" required autocomplete="email" inputmode="email" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-phone">Phone</label>
+              <input class="form-input" type="tel" id="contact-phone" name="phone" placeholder="(214) 555-0100" autocomplete="tel" inputmode="tel" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Message <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <textarea class="form-input form-textarea" id="contact-message" name="message" placeholder="How can we help you?" required rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" aria-label="Send message">Send Message</button>
+
+          </form>
+
+          <div id="contact-success" class="form-success" role="status" aria-live="polite">
+            <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+            <strong>Message sent!</strong><br>
+            We'll get back to you within one business day.
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="52" height="52" />
+          <div class="footer__brand-name">Patriot Wash N Fold</div>
+          <p class="footer__brand-desc">Proudly serving Dallas Baptist University students.</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <div class="footer__col-title">Quick Links</div>
+            <div class="footer__links">
+              <a href="index.html">Home</a>
+              <a href="pricing.html">Pricing</a>
+              <a href="contact.html">Contact</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="privacy.html">Privacy Policy</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Contact</div>
+            <div class="footer__links">
+              <a href="tel:8557720700">855-772-0700</a>
+              <a href="mailto:support@patriotwashnfold.com">support@patriotwashnfold.com</a>
+              <span>2760 E. Trinity Mills, Ste 112<br>Carrollton, TX 75006</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Patriot Wash N Fold. All Rights Reserved.</span>
+        <div class="footer__bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Patriot Wash N Fold — Laundry Service for DBU Students</title>
+  <meta name="description" content="Patriot Wash N Fold provides weekly pick-up and delivery laundry service for Dallas Baptist University students. Sign up for a semester subscription and never worry about laundry again." />
+  <link rel="canonical" href="https://patriotwashnfold.com/" />
+  <meta property="og:title" content="Patriot Wash N Fold — DBU Laundry Service" />
+  <meta property="og:description" content="Weekly pick-up and delivery laundry service for Dallas Baptist University students. Clean clothes, zero effort." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://patriotwashnfold.com/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/webp" href="assets/logo.webp" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo" aria-label="Patriot Wash N Fold Home">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="44" height="44" />
+          <div class="nav__logo-text">PATRIOT <span>Wash N Fold</span></div>
+        </a>
+
+        <!-- Desktop links -->
+        <div class="nav__links" aria-label="Site navigation">
+          <a href="index.html" class="active">Home</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <a href="pricing.html" class="btn btn--primary btn--inline btn--sm nav__cta-desktop">Get Started</a>
+
+        <!-- Mobile hamburger -->
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Mobile drawer -->
+      <div class="nav__mobile" id="nav-mobile" role="menu">
+        <a href="index.html" role="menuitem" class="active">Home</a>
+        <a href="pricing.html" role="menuitem">Pricing</a>
+        <a href="contact.html" role="menuitem">Contact</a>
+        <a href="pricing.html" class="btn btn--primary" role="menuitem" style="margin: 8px 20px 4px; width: calc(100% - 40px);">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__grid-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__badge" aria-label="Serving DBU Patriots">
+          Proudly Serving DBU Patriots
+        </div>
+
+        <h1 class="hero__title">
+          Your Laundry.<br>
+          <span class="line-red">Handled.</span>
+        </h1>
+
+        <p class="hero__subtitle">
+          Your home away from home for clean clothes. Weekly pick-up and delivery, built exclusively for Dallas Baptist University students.
+        </p>
+
+        <div class="hero__actions">
+          <a href="pricing.html" class="btn btn--primary btn--lg">Choose Your Plan</a>
+          <a href="#how-it-works" class="btn btn--outline btn--lg">How It Works</a>
+        </div>
+
+        <div class="hero__trust" aria-label="Service highlights">
+          <div class="hero__trust-item">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7 10.293l3.646-3.647a.5.5 0 0 1 .708.708z"/></svg>
+            48-Hour Turnaround
+          </div>
+          <div class="hero__trust-item">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7 10.293l3.646-3.647a.5.5 0 0 1 .708.708z"/></svg>
+            Flat-Rate, No Surprises
+          </div>
+          <div class="hero__trust-item">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7 10.293l3.646-3.647a.5.5 0 0 1 .708.708z"/></svg>
+            Crowley Dorm Drop-Off
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar" aria-label="Key stats">
+    <div class="container">
+      <div class="stats-bar__inner">
+        <div class="stat-item">
+          <div class="stat-item__number">48hr</div>
+          <div class="stat-item__label">Turnaround</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__number">22lb</div>
+          <div class="stat-item__label">Bag Capacity</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__number">$0</div>
+          <div class="stat-item__label">Hidden Fees</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__number">DBU</div>
+          <div class="stat-item__label">Exclusive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section section--light" id="how-it-works" aria-labelledby="hiw-title">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">Simple Process</span>
+        <h2 class="section-title" id="hiw-title">Laundry Day, Made Easy</h2>
+        <p class="section-subtitle">We could never clone your mom, but we'll do our best to represent her.</p>
+      </div>
+
+      <div class="process-grid" role="list">
+        <div class="process-step fade-in" role="listitem">
+          <div class="process-step__number" aria-hidden="true">1</div>
+          <div class="process-step__body">
+            <div class="process-step__title">Sign Up</div>
+            <p class="process-step__desc">Choose your plan online and receive your Big Red Patriot laundry bag. Setup takes 2 minutes.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in" role="listitem">
+          <div class="process-step__number" aria-hidden="true">2</div>
+          <div class="process-step__body">
+            <div class="process-step__title">Fill Your Bag</div>
+            <p class="process-step__desc">Toss in your dirty laundry — no sorting needed. If it fits in the bag, we wash it. Simple.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in" role="listitem">
+          <div class="process-step__number" aria-hidden="true">3</div>
+          <div class="process-step__body">
+            <div class="process-step__title">Tuesday Pickup</div>
+            <p class="process-step__desc">Drop off at Crowley dorm 12–2 PM every Tuesday. We'll text you a reminder the night before.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in" role="listitem">
+          <div class="process-step__number" aria-hidden="true">4</div>
+          <div class="process-step__body">
+            <div class="process-step__title">Thursday Delivery</div>
+            <p class="process-step__desc">Pick up your clean, folded clothes at Crowley dorm 12–2 PM Thursday. Fresh and ready to wear.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY PATRIOT -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">Why Patriot</span>
+        <h2 class="section-title" id="why-title">Everything You Need,<br>Nothing You Don't</h2>
+        <p class="section-subtitle">Simple, reliable, and designed with DBU students in mind.</p>
+      </div>
+
+      <div class="value-grid" role="list">
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">📍</div>
+          <div class="value-card__body">
+            <div class="value-card__title">Convenient</div>
+            <p class="value-card__desc">Pick-up and delivery right at Crowley dorm. No driving, no quarters, no waiting.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">🏭</div>
+          <div class="value-card__body">
+            <div class="value-card__title">Professional Quality</div>
+            <p class="value-card__desc">State-of-the-art facility — cleaner and fresher than most home machines.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">⚡</div>
+          <div class="value-card__body">
+            <div class="value-card__title">48-Hour Turnaround</div>
+            <p class="value-card__desc">Drop off Tuesday, pick up Thursday. Always ready for the weekend.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">💰</div>
+          <div class="value-card__body">
+            <div class="value-card__title">Flat-Rate Pricing</div>
+            <p class="value-card__desc">Pack that bag to the brim — the price never changes no matter how full it is.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">🔒</div>
+          <div class="value-card__body">
+            <div class="value-card__title">Your Clothes Only</div>
+            <p class="value-card__desc">Every order washed separately. Your clothes never mix with anyone else's.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in" role="listitem">
+          <div class="value-card__icon-wrap" aria-hidden="true">📱</div>
+          <div class="value-card__body">
+            <div class="value-card__title">Text Reminders</div>
+            <p class="value-card__desc">Friendly alerts the night before and morning of pickup. You'll never miss a Tuesday.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSED PICKUP -->
+  <section class="section section--light" aria-labelledby="missed-title">
+    <div class="container">
+      <div class="missed-grid">
+        <div class="fade-in">
+          <span class="section-label">Life Happens</span>
+          <h2 id="missed-title">Can't Make It?<br>No Problem.</h2>
+          <p class="mt-16" style="color: var(--color-text-muted); line-height: 1.75;">
+            If you can't be at Crowley during the pickup or delivery window, just text us. Designate a friend or roommate to grab your bag — easy as that.
+          </p>
+          <p class="mt-16" style="color: var(--color-text-muted); line-height: 1.75;">
+            If neither option works, we'll bring your bag back the following Tuesday. Need it sooner? We can deliver it to you for a $20 return fee.
+          </p>
+          <a href="contact.html" class="btn btn--outline mt-24" style="width: auto; display: inline-flex;">Contact Us</a>
+        </div>
+        <div class="info-card fade-in">
+          <div class="info-card__icon">📞</div>
+          <div class="info-card__title">Just Text Us</div>
+          <p class="info-card__desc">
+            <a href="tel:8557720700" style="color: var(--color-white); font-weight: 700;">855-772-0700</a><br>
+            Mon–Sat, 9am–6pm
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--white" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label" style="color: var(--color-red);">Got Questions?</span>
+        <h2 class="section-title" id="faq-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know before signing up.</p>
+      </div>
+
+      <div class="faq-list" role="list">
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            How does Patriot Wash N Fold work?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">Sign up online, fill your Big Red Patriot bag with dirty laundry, and drop it off at Crowley dorm on Tuesday between 12–2 PM. We collect it, wash, dry, and fold everything, then return it Thursday between 12–2 PM. That's it.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            What's included in the flat rate?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">Everything that fits in your 22 lb bag — shirts, pants, yoga pants, undergarments, towels, sheets, and more. One flat price, no matter how full the bag is. No hidden fees, no overages. Applicable sales tax is calculated at checkout.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            Will my clothes get mixed up with someone else's?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">Never. Each order is washed completely separately. Your clothes stay together and are returned exclusively to you. Your bag has a unique ID — no labeling required on your end.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            What detergent do you use?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">We use high-quality scented or hypoallergenic detergents gentle on clothes and skin. If you have preferences or sensitivities, let us know when you sign up and we'll do our best to accommodate.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            Can I cancel or pause my subscription?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">Yes. You can cancel or pause your service by contacting us with at least 24-hour notice before your next scheduled pickup. Cancellations are refunded for unused service beyond the current week.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            Do you wash during school holidays?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">No — we only operate during active school weeks when students are on campus. Holiday breaks are not included in your wash count, so your 16 or 8 washes cover the weeks students are actually in school.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            What if something gets lost or damaged?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer__inner">While rare, you're covered up to $50 per item and $200 per bag for loss or damage caused by our negligence. Notify us within 48 hours of receiving your laundry and we'll make it right.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner" aria-labelledby="cta-title">
+    <div class="container">
+      <span class="section-label">Ready to Start?</span>
+      <h2 id="cta-title">Ditch the Dirty Clothes Pile.</h2>
+      <p>Sign up takes 2 minutes. Your Big Red bag ships with your subscription. Clean clothes every week — guaranteed.</p>
+      <a href="pricing.html" class="btn btn--primary btn--lg" style="max-width: 360px; margin: 0 auto;">See Pricing &amp; Sign Up</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="52" height="52" />
+          <div class="footer__brand-name">Patriot Wash N Fold</div>
+          <p class="footer__brand-desc">Proudly serving Dallas Baptist University students with convenient, reliable, and affordable laundry pick-up and delivery.</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <div class="footer__col-title">Quick Links</div>
+            <div class="footer__links">
+              <a href="index.html">Home</a>
+              <a href="pricing.html">Pricing</a>
+              <a href="contact.html">Contact</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="privacy.html">Privacy Policy</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Contact</div>
+            <div class="footer__links">
+              <a href="tel:8557720700">855-772-0700</a>
+              <a href="mailto:support@patriotwashnfold.com">support@patriotwashnfold.com</a>
+              <span>2760 E. Trinity Mills, Ste 112<br>Carrollton, TX 75006</span>
+              <span>Mon–Sat: 9am–6pm<br>Sunday: Closed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Patriot Wash N Fold. All Rights Reserved.</span>
+        <div class="footer__bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

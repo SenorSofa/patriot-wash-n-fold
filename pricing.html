@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Pricing — Patriot Wash N Fold</title>
+  <meta name="description" content="Choose your Patriot Wash N Fold plan. Red Plan (weekly, $600/semester), White Plan (bi-weekly, $300/semester), or Blue Plan (single wash, $50). Tax calculated at checkout." />
+  <link rel="canonical" href="https://patriotwashnfold.com/pricing" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/webp" href="assets/logo.webp" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo" aria-label="Patriot Wash N Fold Home">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="44" height="44" />
+          <div class="nav__logo-text">PATRIOT <span>Wash N Fold</span></div>
+        </a>
+        <div class="nav__links">
+          <a href="index.html">Home</a>
+          <a href="pricing.html" class="active">Pricing</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <a href="pricing.html" class="btn btn--primary btn--inline btn--sm nav__cta-desktop">Get Started</a>
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="nav__mobile" id="nav-mobile" role="menu">
+        <a href="index.html" role="menuitem">Home</a>
+        <a href="pricing.html" role="menuitem" class="active">Pricing</a>
+        <a href="contact.html" role="menuitem">Contact</a>
+        <a href="pricing.html" class="btn btn--primary" role="menuitem" style="margin: 8px 20px 4px; width: calc(100% - 40px);">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label">Simple &amp; Transparent</span>
+      <h1>Choose Your Plan</h1>
+      <p class="page-hero__subtitle">Answer two quick questions and we'll find the perfect fit for you.<br>
+      <span style="font-size: 0.82rem; color: var(--color-text-muted);">All prices shown before tax. Sales tax (8.25%) calculated at checkout.</span></p>
+    </div>
+  </div>
+
+  <!-- PLAN WIZARD -->
+  <section class="section" aria-labelledby="wizard-heading">
+    <div class="container">
+
+      <div class="plan-wizard" id="plan-wizard" role="region" aria-label="Plan selection wizard">
+
+        <!-- Progress -->
+        <div class="wizard-progress" aria-label="Step progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
+          <div class="wizard-step-dot active" id="wizard-dot-1">1</div>
+          <div class="wizard-step-line" id="wizard-line-1"></div>
+          <div class="wizard-step-dot" id="wizard-dot-2">2</div>
+          <div class="wizard-step-line" id="wizard-line-2"></div>
+          <div class="wizard-step-dot" id="wizard-dot-3">3</div>
+        </div>
+
+        <!-- STEP 1: Frequency -->
+        <div id="wizard-step-1">
+          <h2 class="wizard-question" id="wizard-heading">How often do you want your laundry done?</h2>
+          <div class="wizard-options" role="group" aria-label="Frequency options">
+
+            <button class="wizard-option" data-frequency="weekly" aria-label="Every week — Red Plan, 16 washes">
+              <div class="wizard-option__icon" aria-hidden="true">🔴</div>
+              <div class="wizard-option__body">
+                <div class="wizard-option__title">Every Week</div>
+                <p class="wizard-option__desc">16 washes per semester. Always fresh, every Tuesday.</p>
+              </div>
+            </button>
+
+            <button class="wizard-option" data-frequency="biweekly" aria-label="Every other week — White Plan, 8 washes">
+              <div class="wizard-option__icon" aria-hidden="true">⚪</div>
+              <div class="wizard-option__body">
+                <div class="wizard-option__title">Every Other Week</div>
+                <p class="wizard-option__desc">8 washes per semester. Great if you don't need weekly service.</p>
+              </div>
+            </button>
+
+            <button class="wizard-option" data-frequency="once" aria-label="Just once — Blue Plan, $50">
+              <div class="wizard-option__icon" aria-hidden="true">🔵</div>
+              <div class="wizard-option__body">
+                <div class="wizard-option__title">Just Once</div>
+                <p class="wizard-option__desc">Single wash, no subscription. $50 before tax.</p>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- STEP 2: Payment Method -->
+        <div id="wizard-step-2" class="hidden">
+          <h2 class="wizard-question">How would you like to pay?</h2>
+          <p id="payment-plan-label" class="text-center text-muted mb-16" style="font-size:0.88rem; margin-bottom:20px;"></p>
+
+          <div class="payment-comparison">
+
+            <!-- Upfront (Recommended) -->
+            <div class="payment-card payment-card--recommended">
+              <div class="payment-card__badge">⭐ Best Value</div>
+              <div class="payment-card__label">Pay Upfront</div>
+              <div class="payment-card__price" id="payment-upfront-price">$600</div>
+              <div class="payment-card__price-sub" id="payment-upfront-sub">per semester, paid in full</div>
+              <div class="payment-card__savings" id="payment-upfront-saving">Save $40 vs. split payments</div>
+              <div class="payment-card__features">
+                One payment. Done.<br>
+                Most families choose this.<br>
+                <strong style="color: var(--color-gold);">Lowest total cost.</strong>
+              </div>
+              <button class="btn btn--gold" data-payment="upfront" aria-label="Choose pay upfront option">Pay Upfront &amp; Save</button>
+            </div>
+
+            <!-- Split Payments -->
+            <div class="payment-card">
+              <div class="payment-card__label" id="payment-split-label">Weekly Payments</div>
+              <div class="payment-card__price" id="payment-split-price">$40</div>
+              <div class="payment-card__price-sub" id="payment-split-sub">per week × 16 weeks</div>
+              <div style="height: 28px; margin-bottom: 16px;"></div>
+              <div class="payment-card__features">
+                Spread out the cost.<br>
+                Auto-charged each period.<br>
+                <span id="payment-split-total" style="color: var(--color-text-muted); font-size: 0.82rem;">Total: $640/semester</span>
+              </div>
+              <button class="btn btn--outline" data-payment="split" aria-label="Choose split payment option">Choose Split Payments</button>
+            </div>
+
+          </div>
+
+          <div class="text-center mt-16">
+            <button class="btn btn--ghost" data-back="1" style="width:auto; display:inline-flex;">← Back</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Confirm & Proceed -->
+        <div id="wizard-step-3" class="hidden" style="text-align: center; padding: 8px 0;">
+          <div style="font-size: 3rem; margin-bottom: 14px;" aria-hidden="true">🎉</div>
+          <h2 style="margin-bottom: 10px;">Great Choice!</h2>
+          <p style="color: var(--color-text-muted); margin-bottom: 8px; font-size: 0.95rem;">
+            You selected:
+          </p>
+          <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 24px;" id="wizard-plan-display"></p>
+          <p style="color: var(--color-text-muted); font-size: 0.88rem; margin-bottom: 28px; line-height: 1.65;">
+            Fill out your info below so we can set up your account. You'll be redirected to secure checkout where tax will be calculated automatically.
+          </p>
+          <a href="#checkout-form" class="btn btn--primary btn--lg" id="wizard-proceed-btn" style="max-width: 400px; margin: 0 auto;">
+            Continue to Checkout →
+          </a>
+          <div class="mt-16">
+            <button class="btn btn--ghost" data-back="1" style="width:auto; display:inline-flex;">← Start Over</button>
+          </div>
+        </div>
+
+      </div><!-- end plan-wizard -->
+
+      <!-- Full Comparison Table -->
+      <div class="mt-32 fade-in">
+        <h3 class="text-center" style="font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 20px;">Full Plan Comparison</h3>
+        <div class="plan-table-wrap">
+          <table class="plan-table" aria-label="Plan comparison table">
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Frequency</th>
+                <th>Washes</th>
+                <th>Upfront</th>
+                <th>Split</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="plan-name">Red Plan</span><br>
+                  <span class="plan-badge plan-badge--red">Most Popular</span>
+                </td>
+                <td>Weekly</td>
+                <td>16/semester</td>
+                <td><strong>$600</strong></td>
+                <td>$40/wk × 16 = <strong>$640</strong></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="plan-name">White Plan</span><br>
+                  <span class="plan-badge plan-badge--white">Bi-Weekly</span>
+                </td>
+                <td>Every 2 wks</td>
+                <td>8/semester</td>
+                <td><strong>$300</strong></td>
+                <td>$40/2wks × 8 = <strong>$320</strong></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="plan-name">Blue Plan</span><br>
+                  <span class="plan-badge plan-badge--blue">One-Time</span>
+                </td>
+                <td>Single wash</td>
+                <td>1</td>
+                <td><strong>$50</strong></td>
+                <td>N/A</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--color-text-muted); text-align: center; margin-top: 10px;">All prices before tax. Sales tax (8.25%) added at checkout.</p>
+
+        <!-- Annual Subscription Notice -->
+        <div class="annual-notice fade-in" role="note" aria-label="Annual subscription notice">
+          <span class="annual-notice__icon" aria-hidden="true">ℹ️</span>
+          <div>
+            <strong style="color: var(--color-white);">Annual Subscription — Red &amp; White Plans:</strong>
+            These plans are annual subscriptions billed per semester. If you sign up for fall, you'll be charged again at the start of spring semester. Subscriptions do not auto-renew year-to-year — you re-enroll each academic year. The Blue Plan is a one-time purchase with no recurring charges.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHECKOUT FORM -->
+  <section class="section section--light" id="checkout-form" aria-labelledby="checkout-heading">
+    <div class="container">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="form-card">
+          <h2 class="form-title" id="checkout-heading">Set Up Your Account</h2>
+          <p class="form-subtitle">Fill out your info below. You'll be redirected to secure payment — tax is calculated automatically at checkout.</p>
+
+          <div class="form-selected-plan" aria-live="polite">
+            <span style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted);">Selected Plan</span>
+            <strong id="checkout-plan-name">Select a plan above ↑</strong>
+          </div>
+
+          <form id="checkout-form-el" novalidate aria-label="Account setup form">
+
+            <div class="form-group">
+              <label class="form-label" for="field-first-name">First Name <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="text" id="field-first-name" name="firstName" placeholder="Jane" required autocomplete="given-name" inputmode="text" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-last-name">Last Name <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="text" id="field-last-name" name="lastName" placeholder="Smith" required autocomplete="family-name" inputmode="text" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-email">Student Email <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="email" id="field-email" name="email" placeholder="jsmith@dbu.edu" required autocomplete="email" inputmode="email" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-phone">Student Phone <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="tel" id="field-phone" name="phone" placeholder="(214) 555-0100" required autocomplete="tel" inputmode="tel" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-dorm-room">Dorm &amp; Room Number <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="text" id="field-dorm-room" name="dormRoom" placeholder="Crowley 214" required inputmode="text" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-parent-email">Parent / Guardian Email <span style="color:var(--color-red);" aria-label="required">*</span></label>
+              <input class="form-input" type="email" id="field-parent-email" name="parentEmail" placeholder="parent@email.com" required autocomplete="off" inputmode="email" />
+              <div style="font-size: 0.76rem; color: var(--color-text-muted); margin-top: 5px;">Billing confirmations will also be sent here.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-detergent">Detergent Preference</label>
+              <select class="form-select" id="field-detergent" name="detergentPref">
+                <option value="standard">Standard Scented (default)</option>
+                <option value="hypoallergenic">Hypoallergenic / Fragrance-Free</option>
+                <option value="no-preference">No Preference</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="field-notes">Special Instructions (optional)</label>
+              <input class="form-input" type="text" id="field-notes" name="specialNotes" placeholder="e.g. delicate items, allergies…" inputmode="text" />
+            </div>
+
+            <input type="hidden" id="field-plan" name="selectedPlan" value="" />
+
+            <hr class="divider" />
+
+            <!-- Annual sub acknowledgment -->
+            <div class="form-checkbox-group">
+              <input class="form-checkbox" type="checkbox" id="ack-annual" name="ackAnnual" required />
+              <label class="form-checkbox-label" for="ack-annual">
+                I understand the Red and White plans are <strong>annual subscriptions billed per semester</strong>. Spring semester charges apply at the start of each new semester. Subscriptions do not auto-renew year-to-year. <a href="terms.html" target="_blank" rel="noopener">View Terms</a>
+              </label>
+            </div>
+
+            <!-- Terms agreement -->
+            <div class="form-checkbox-group">
+              <input class="form-checkbox" type="checkbox" id="ack-terms" name="ackTerms" required />
+              <label class="form-checkbox-label" for="ack-terms">
+                I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+              </label>
+            </div>
+
+            <div id="form-submit-error" class="form-error" role="alert" aria-live="assertive"></div>
+
+            <button type="submit" class="btn btn--primary btn--lg mt-8" aria-label="Continue to secure payment">
+              Continue to Secure Payment →
+            </button>
+
+            <p style="text-align: center; font-size: 0.78rem; color: var(--color-text-muted); margin-top: 12px; line-height: 1.5;">
+              🔒 Secure checkout by Stripe. We never store your card details.<br>
+              Sales tax (8.25%) calculated automatically at checkout.
+            </p>
+
+          </form>
+
+          <div id="form-submit-success" class="form-success" role="status" aria-live="polite">
+            <div style="font-size: 1.8rem; margin-bottom: 8px;">✅</div>
+            <strong>Account info saved!</strong><br>
+            Redirecting you to secure payment…
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="52" height="52" />
+          <div class="footer__brand-name">Patriot Wash N Fold</div>
+          <p class="footer__brand-desc">Proudly serving Dallas Baptist University students.</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <div class="footer__col-title">Quick Links</div>
+            <div class="footer__links">
+              <a href="index.html">Home</a>
+              <a href="pricing.html">Pricing</a>
+              <a href="contact.html">Contact</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="privacy.html">Privacy Policy</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Contact</div>
+            <div class="footer__links">
+              <a href="tel:8557720700">855-772-0700</a>
+              <a href="mailto:support@patriotwashnfold.com">support@patriotwashnfold.com</a>
+              <span>2760 E. Trinity Mills, Ste 112<br>Carrollton, TX 75006</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Patriot Wash N Fold. All Rights Reserved.</span>
+        <div class="footer__bottom-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
