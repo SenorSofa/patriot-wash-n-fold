@@ -50,15 +50,21 @@
     .section--warm .section-label { color: var(--color-red); }
     .section--warm .section-subtitle,
     .section--warm .process-step__desc,
-    .section--warm .value-card__desc { color: #3a3a5a; } /* dark enough for contrast on warm cream */
-    .section--warm .process-step { border-bottom-color: rgba(0,0,0,0.08); }
-    .section--warm .process-step__number { background: var(--color-red); }
+    .section--warm .value-card__desc { color: #2a2a4a; }
+    .section--warm .process-step { border-bottom-color: rgba(0,0,0,0.12); }
+    .section--warm .process-step__number {
+      background: var(--color-red);
+      color: #fff;
+      opacity: 1 !important;
+    }
+    .section--warm .process-step__title { color: #051b38 !important; font-weight: 700; }
+    .section--warm .process-step__desc { color: #2a2a4a !important; }
     .section--warm .value-card {
       background: #fff;
-      border-color: rgba(0,0,0,0.07);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
-    .section--warm .value-card__icon-wrap { background: rgba(192,57,43,0.07); }
+    .section--warm .value-card__icon-wrap { background: rgba(162,13,51,0.08); }
 
     /* Campus section */
     .campus-section { background: var(--color-navy); padding: 0; overflow: hidden; }

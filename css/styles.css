@@ -951,7 +951,10 @@ p:last-child { margin-bottom: 0; }
 
 /* Fade-in scroll animation */
 .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in.visible { opacity: 1 !important; transform: translateY(0); }
+/* Ensure fade-in elements that haven't triggered yet still show after 1s */
+.fade-in { animation: fadeInFallback 0s 1.2s forwards; }
+@keyframes fadeInFallback { to { opacity: 1; transform: translateY(0); } }
 
 /* ============================================================
    TABLET — 640px+
