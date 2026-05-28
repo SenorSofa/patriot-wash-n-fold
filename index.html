@@ -50,7 +50,7 @@
     .section--warm .section-label { color: var(--color-red); }
     .section--warm .section-subtitle,
     .section--warm .process-step__desc,
-    .section--warm .value-card__desc { color: #5a5a7a; }
+    .section--warm .value-card__desc { color: #3a3a5a; } /* dark enough for contrast on warm cream */
     .section--warm .process-step { border-bottom-color: rgba(0,0,0,0.08); }
     .section--warm .process-step__number { background: var(--color-red); }
     .section--warm .value-card {
@@ -81,8 +81,8 @@
 
     /* FAQ */
     .faq-section { background: var(--warm-bg); color: #1a1a2e; position: relative; overflow: hidden; }
-    .faq-section .faq-question { color: var(--color-navy); }
-    .faq-section .faq-answer__inner { color: #5a5a7a; }
+    .faq-section .faq-question { color: var(--color-navy); font-weight: 700; }
+    .faq-section .faq-answer__inner { color: #2a2a4a; } /* strong contrast on warm cream */
     .faq-section .faq-item { border-bottom-color: rgba(0,0,0,0.1); }
     .faq-section .section-label { color: var(--color-red); }
     .faq-section .container { position: relative; z-index: 1; }
@@ -122,7 +122,7 @@
     <div class="container">
       <div class="nav__inner">
         <a href="index.html" class="nav__logo" aria-label="Patriot Wash N Fold Home">
-          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="44" height="44" />
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="64" height="64" />
           <div class="nav__logo-text">PATRIOT <span>Wash N Fold</span></div>
         </a>
         <div class="nav__links">
@@ -432,6 +432,10 @@
           <button class="faq-question" aria-expanded="false">Can I send a friend to pick up my laundry? <span class="faq-icon" aria-hidden="true">+</span></button>
           <div class="faq-answer"><div class="faq-answer__inner">Absolutely! If you can't make it to the pickup or delivery window, just text us and designate a friend or roommate to grab your bag. Easy peasy.</div></div>
         </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" aria-expanded="false">Do unused washes roll over? <span class="faq-icon" aria-hidden="true">+</span></button>
+          <div class="faq-answer"><div class="faq-answer__inner">No — unused washes do not roll over. Your Red or White Plan includes a set number of washes for the semester, and any washes not used simply expire at the end of the semester. There are no credits or carryovers to the following semester.</div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -460,7 +464,7 @@
     <div class="container">
       <div class="footer__inner">
         <div class="footer__brand">
-          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="52" height="52" />
+          <img src="assets/logo.webp" alt="Patriot Wash N Fold Logo" width="90" height="90" />
           <div class="footer__brand-name">Patriot Wash N Fold</div>
           <p class="footer__brand-desc">Proudly serving Dallas Baptist University students with convenient, reliable, and affordable laundry pick-up and delivery.</p>
         </div>

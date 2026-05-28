@@ -6,16 +6,17 @@
 
 /* --- Design Tokens --- */
 :root {
-  --color-navy:        #0d1b3e;
-  --color-navy-mid:    #1a2a4a;
-  --color-navy-light:  #243558;
-  --color-red:         #c0392b;
-  --color-red-hover:   #a93226;
-  --color-gold:        #f4c430;
+  /* Exact DBU / Patriot Wash N Fold brand colors from live site */
+  --color-navy:        #051b38;   /* DBU official navy — from live site */
+  --color-navy-mid:    #0a2347;   /* slightly lighter navy for cards/sections */
+  --color-navy-light:  #0f2d5a;   /* lightest navy for card backgrounds */
+  --color-red:         #a20d33;   /* DBU official crimson red — from live site */
+  --color-red-hover:   #8a0b2b;   /* darker red for hover */
+  --color-gold:        #f4c430;   /* warm gold accent */
   --color-white:       #ffffff;
   --color-off-white:   #f5f7fa;
-  --color-text-muted:  #a0aec0;
-  --color-border:      rgba(255,255,255,0.12);
+  --color-text-muted:  #c9d8e0;   /* from live site muted text */
+  --color-border:      rgba(255,255,255,0.14);
 
   --font-heading: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
   --font-body:    'Inter', 'Segoe UI', Arial, sans-serif;
@@ -170,7 +171,7 @@ p:last-child { margin-bottom: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 80px;
 }
 
 .nav__logo {
@@ -181,19 +182,20 @@ p:last-child { margin-bottom: 0; }
   min-height: var(--tap-min);
 }
 
-.nav__logo img { width: 44px; height: 44px; object-fit: contain; }
+.nav__logo img { width: 64px; height: 64px; object-fit: contain; }
 
 .nav__logo-text {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1.45rem;
+  font-weight: 900;
   letter-spacing: 0.04em;
-  line-height: 1.1;
+  line-height: 1.05;
+  color: var(--color-white);
 }
 .nav__logo-text span {
   display: block;
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -884,7 +886,7 @@ p:last-child { margin-bottom: 0; }
   padding: 44px 0 24px;
 }
 .footer__brand { margin-bottom: 32px; }
-.footer__brand img { width: 52px; margin-bottom: 12px; }
+.footer__brand img { width: 90px; margin-bottom: 14px; }
 .footer__brand-name { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
 .footer__brand-desc { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.7; }
 
