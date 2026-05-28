@@ -1,24 +1,8 @@
 /* ============================================================
-   PATRIOT WASH N FOLD — Truck Animation v3
-   Animation Expert: Kai (Motion Design & Physics Simulation)
-
-   Sequence:
-   1. Truck drives in from RIGHT (facing left) with bubbles
-   2. Realistic lurch stop: front dips, rear wheels briefly lift
-   3. Back door swings open (the right side, which is the rear)
-   4. Bag drops from the BACK (right side) of truck, bounces
-   5. Door closes
-   6. Truck launches left: front wheels lift briefly (wheelie)
-   7. Truck exits screen left
-   8. Bag fades, reset
-
-   Physics notes from Kai:
-   - Lurch: when braking hard, weight transfers FORWARD.
-     Front dips down, rear lifts. We simulate this with
-     a rotation (clockwise tilt) + slight forward overshoot.
-   - Launch: weight transfers BACKWARD.
-     Front lifts, rear squats. Counter-clockwise tilt.
-   - Both are subtle — 3-5deg max. Real, not cartoon.
+   PATRIOT WASH N FOLD — Truck Animation v4
+   Truck faces RIGHT. Drives in from LEFT. Stops center.
+   Bag drops from the BACK = LEFT side of truck.
+   Truck drives off to the RIGHT.
    ============================================================ */
 
 (function () {
@@ -46,45 +30,40 @@
     observerRef.observe(section);
   }
 
-  /* ── Main sequence orchestrator ──────────────────────────── */
   function runSequence(truck, bag, bubbleCt, section) {
-    const vw      = window.innerWidth;
-    const truckW  = Math.min(240, vw * 0.50);
-    const stopX   = Math.round(vw * 0.38); // stop ~38% from left
+    const vw     = window.innerWidth;
+    const truckW = Math.min(240, vw * 0.50);
+    // Stop position: center-ish of screen
+    const stopX  = Math.round(vw * 0.38);
 
-    // Set truck size and starting position (off-screen right)
     truck.style.width     = truckW + 'px';
-    truck.style.left      = (vw + 30) + 'px';
-    truck.style.transform = 'scaleX(-1)'; // face left
-    truck.style.transformOrigin = 'center bottom';
+    truck.style.left      = (-truckW - 30) + 'px'; // off-screen LEFT
+    truck.style.transform = 'none';                 // faces right naturally
 
-    // Phase 1: Drive in
-    phaseDriverIn(truck, bag, bubbleCt, section, vw, truckW, stopX);
+    phaseIn(truck, bag, bubbleCt, section, vw, truckW, stopX);
   }
 
-  /* ── Phase 1: Drive in from right ──────────────────────────── */
-  function phaseDriverIn(truck, bag, bubbleCt, section, vw, truckW, stopX) {
-    const startX    = vw + 30;
-    const duration  = 2200;
-    const start     = performance.now();
-    let   lastBubble = 0;
+  /* Phase 1: Drive in from LEFT → stop at stopX */
+  function phaseIn(truck, bag, bubbleCt, section, vw, truckW, stopX) {
+    const startX   = -(parseInt(truck.style.width) + 30);
+    const duration = 2200;
+    const start    = performance.now();
+    let   lastBub  = 0;
 
     function tick(now) {
       const t = Math.min((now - start) / duration, 1);
-      // Ease-out cubic: fast start, decelerates
-      const e = 1 - Math.pow(1 - t, 3);
-      const x = startX - (startX - stopX) * e;
+      const e = 1 - Math.pow(1 - t, 3); // ease-out
+      const x = startX + (stopX - startX) * e;
       truck.style.left = x + 'px';
 
-      // Bubble trail from rear (right side of truck since it faces left)
-      if (now - lastBubble > 110) {
-        lastBubble = now;
-        spawnBubble(bubbleCt, x + truckW + 4, 50);
+      // Bubbles trail from the BACK = LEFT side of truck (x position)
+      if (now - lastBub > 110) {
+        lastBub = now;
+        spawnBubble(bubbleCt, x - 8, 50);
       }
 
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
+      if (t < 1) requestAnimationFrame(tick);
+      else {
         truck.style.left = stopX + 'px';
         phaseLurch(truck, bag, bubbleCt, section, vw, truckW, stopX);
       }
@@ -92,69 +71,47 @@
     requestAnimationFrame(tick);
   }
 
-  /* ── Phase 2: Realistic lurch stop ─────────────────────────── */
-  /* Weight transfers forward: front dips, rear lifts.
-     Simulate with: small forward overshoot + clockwise tilt (truck faces left,
-     so scaleX(-1) means clockwise in screen space = nose down).
-     We use CSS transform on the truck element directly. */
+  /* Phase 2: Lurch stop — nose dips, rear lifts */
   function phaseLurch(truck, bag, bubbleCt, section, vw, truckW, stopX) {
-    const overshoot   = 18;   // px forward overshoot
-    const maxTilt     = 4;    // degrees nose-down
-    const lurchMs     = 160;  // time to overshoot
-    const settleMs    = 280;  // time to settle back
+    const overshoot = 16;
+    const maxTilt   = 3.5; // degrees — nose dips (clockwise since facing right)
 
-    // Step A: overshoot + tilt forward
-    animateMulti(lurchMs, 'easeOut', (p) => {
-      const x   = stopX - overshoot * p;
-      const deg = maxTilt * p;
-      truck.style.left      = x + 'px';
-      // scaleX(-1) already applied; we add rotate on top
-      truck.style.transform = `scaleX(-1) rotate(${deg}deg)`;
+    animateMulti(160, 'easeOut', (p) => {
+      truck.style.left      = (stopX + overshoot * p) + 'px';
+      truck.style.transform = `rotate(${maxTilt * p}deg)`;
     }, () => {
-      // Step B: bounce back and settle
-      animateMulti(settleMs, 'spring', (p) => {
-        // Spring: overshoot slightly past neutral then settle
-        const springP = springEase(p);
-        const x   = (stopX - overshoot) + overshoot * 1.08 * springP;
-        const deg = maxTilt * (1 - springP);
+      animateMulti(260, 'spring', (p) => {
+        const x   = (stopX + overshoot) - overshoot * 1.05 * p;
+        const deg = maxTilt * (1 - p);
         truck.style.left      = x + 'px';
-        truck.style.transform = `scaleX(-1) rotate(${deg}deg)`;
+        truck.style.transform = `rotate(${deg}deg)`;
       }, () => {
         truck.style.left      = stopX + 'px';
-        truck.style.transform = 'scaleX(-1) rotate(0deg)';
-        // Short pause then open door
-        setTimeout(() => phaseOpenDoor(truck, bag, bubbleCt, section, vw, truckW, stopX), 200);
+        truck.style.transform = 'rotate(0deg)';
+        setTimeout(() => phaseDropBag(truck, bag, bubbleCt, section, vw, truckW, stopX), 200);
       });
     });
   }
 
-  /* ── Phase 3: Open back door, drop bag ─────────────────────── */
-  /* The truck faces left. Its BACK is on the RIGHT side.
-     The bag should drop from x = stopX + truckW (right edge of truck). */
-  function phaseOpenDoor(truck, bag, bubbleCt, section, vw, truckW, stopX) {
-    // We don't have a separate door element — simulate with a brief truck
-    // body "opening" effect (slight scale-x expand on right side) then bag appears.
-    // Simple approach: just wait a beat then drop the bag from the back.
-
+  /* Phase 3: Drop bag from BACK (LEFT side) of truck */
+  function phaseDropBag(truck, bag, bubbleCt, section, vw, truckW, stopX) {
     setTimeout(() => {
       if (bag) {
         const sectionEl = document.getElementById('truck-drive-section');
         const sH = sectionEl ? sectionEl.offsetHeight : 160;
+        const bagW = Math.round(truckW * 0.28);
 
-        // Position bag at the BACK of the truck (right side = stopX + truckW)
-        const bagW   = Math.round(truckW * 0.28);
-        const bagX   = stopX + truckW - bagW * 0.6; // right edge of truck
-        const startB = sH - 40; // truck bed height (near top of section)
+        // Back of truck = LEFT edge = stopX
+        const bagX = stopX - bagW * 0.5;
 
         bag.style.width   = bagW + 'px';
         bag.style.left    = bagX + 'px';
-        bag.style.bottom  = startB + 'px';
+        bag.style.bottom  = (sH - 35) + 'px';
         bag.style.display = 'block';
         bag.style.opacity = '1';
-        bag.style.transform = 'rotate(-8deg)';
+        bag.style.transform = 'rotate(8deg)';
 
-        dropBag(bag, startB, () => {
-          // Door "closes" — just a short pause
+        dropBag(bag, sH, () => {
           setTimeout(() => phaseLaunch(truck, bag, bubbleCt, section, vw, truckW, stopX), 700);
         });
       } else {
@@ -163,113 +120,91 @@
     }, 350);
   }
 
-  /* ── Bag drop with bounce ───────────────────────────────────── */
-  function dropBag(bag, startBottom, cb) {
+  function dropBag(bag, sH, cb) {
     const endBottom = 12;
-    const fallMs    = 280;
-    const bounce1Ms = 130;
-    const bounce2Ms = 90;
-
-    // Fall
-    animateMulti(fallMs, 'easeIn', (p) => {
-      bag.style.bottom    = (startBottom - (startBottom - endBottom - 12) * p) + 'px';
-      bag.style.transform = `rotate(${-8 + 14 * p}deg)`;
+    animateMulti(280, 'easeIn', (p) => {
+      bag.style.bottom    = ((sH - 35) - ((sH - 35) - endBottom - 10) * p) + 'px';
+      bag.style.transform = `rotate(${8 - 14 * p}deg)`;
     }, () => {
-      // First bounce
-      animateMulti(bounce1Ms, 'easeOut', (p) => {
-        bag.style.bottom    = (endBottom - 12 + 22 * (1 - p)) + 'px';
-        bag.style.transform = `rotate(${6 - 6 * p}deg)`;
+      animateMulti(120, 'easeOut', (p) => {
+        bag.style.bottom    = (endBottom - 10 + 22 * (1 - p)) + 'px';
+        bag.style.transform = `rotate(${-6 + 6 * p}deg)`;
       }, () => {
-        // Settle
-        animateMulti(bounce2Ms, 'easeOut', (p) => {
-          bag.style.bottom    = (endBottom + 10 - 10 * p) + 'px';
-          bag.style.transform = `rotate(${0}deg)`;
-        }, () => {
-          bag.style.bottom    = endBottom + 'px';
+        animateMulti(90, 'easeOut', (p) => {
+          bag.style.bottom    = (endBottom + 12 - 12 * p) + 'px';
           bag.style.transform = 'rotate(0deg)';
+        }, () => {
+          bag.style.bottom = endBottom + 'px';
           cb();
         });
       });
     });
   }
 
-  /* ── Phase 4: Launch left with front-wheel lift ─────────────── */
-  /* Weight transfers backward on hard acceleration.
-     Front lifts (counter-clockwise tilt since truck faces left). */
+  /* Phase 4: Launch RIGHT — front wheels lift briefly */
   function phaseLaunch(truck, bag, bubbleCt, section, vw, truckW, stopX) {
-    const liftDeg   = -4;   // front lifts = counter-clockwise (negative)
-    const liftMs    = 180;
-    const driveMs   = 1500;
-    const endX      = -(truckW + 40);
-    let   lastBubble = 0;
+    const liftDeg = 3.5; // front lifts = counter-clockwise (negative) when facing right
 
-    // Step A: front wheel lift
-    animateMulti(liftMs, 'easeOut', (p) => {
-      truck.style.transform = `scaleX(-1) rotate(${liftDeg * p}deg)`;
+    animateMulti(160, 'easeOut', (p) => {
+      truck.style.transform = `rotate(${-liftDeg * p}deg)`;
     }, () => {
-      // Step B: accelerate off screen while settling rotation
+      const endX    = vw + truckW + 40;
       const launchStart = performance.now();
+      const duration    = 1500;
+      let   lastBub     = 0;
+
       function launchTick(now) {
-        const t = Math.min((now - launchStart) / driveMs, 1);
+        const t = Math.min((now - launchStart) / duration, 1);
         const e = t * t; // ease-in: accelerate
-        const x = stopX - (stopX - endX) * e;
-        // Rotation settles back to 0 in first 30% of drive
+        const x = stopX + (endX - stopX) * e;
         const rotT = Math.min(t / 0.3, 1);
-        const deg  = liftDeg * (1 - rotT);
+        const deg  = -liftDeg * (1 - rotT);
         truck.style.left      = x + 'px';
-        truck.style.transform = `scaleX(-1) rotate(${deg}deg)`;
+        truck.style.transform = `rotate(${deg}deg)`;
 
-        if (now - lastBubble > 90) {
-          lastBubble = now;
-          spawnBubble(bubbleCt, x + truckW + 4, 50);
+        // Bubbles from back (LEFT side = x position)
+        if (now - lastBub > 90) {
+          lastBub = now;
+          spawnBubble(bubbleCt, x - 8, 50);
         }
 
-        if (t < 1) {
-          requestAnimationFrame(launchTick);
-        } else {
-          phaseEnd(truck, bag, bubbleCt, section, vw);
-        }
+        if (t < 1) requestAnimationFrame(launchTick);
+        else phaseEnd(truck, bag, bubbleCt, section, vw, truckW);
       }
       requestAnimationFrame(launchTick);
     });
   }
 
-  /* ── Phase 5: End — fade bag, reset ────────────────────────── */
-  function phaseEnd(truck, bag, bubbleCt, section, vw) {
+  /* Phase 5: End — fade bag, reset */
+  function phaseEnd(truck, bag, bubbleCt, section, vw, truckW) {
     if (bag) {
       bag.style.transition = 'opacity 1.2s ease';
       bag.style.opacity    = '0';
       setTimeout(() => {
-        bag.style.display     = 'none';
-        bag.style.transition  = '';
-        bag.style.opacity     = '1';
+        bag.style.display    = 'none';
+        bag.style.transition = '';
+        bag.style.opacity    = '1';
       }, 1300);
     }
-
     setTimeout(() => {
-      // Reset truck
-      truck.style.left      = (vw + 30) + 'px';
-      truck.style.transform = 'scaleX(-1)';
+      truck.style.left      = (-truckW - 30) + 'px';
+      truck.style.transform = 'none';
       if (bubbleCt) bubbleCt.innerHTML = '';
       hasPlayed = false;
-
-      // Re-observe for next scroll
       if (observerRef) observerRef.observe(section);
     }, 2000);
   }
 
-  /* ── Utility: animate over time ─────────────────────────────── */
+  /* Utility: animate over time */
   function animateMulti(duration, easing, onUpdate, onComplete) {
     const start = performance.now();
     function tick(now) {
       const t = Math.min((now - start) / duration, 1);
       let e;
-      switch (easing) {
-        case 'easeIn':  e = t * t; break;
-        case 'easeOut': e = 1 - (1 - t) * (1 - t); break;
-        case 'spring':  e = springEase(t); break;
-        default:        e = t;
-      }
+      if (easing === 'easeIn')  e = t * t;
+      else if (easing === 'easeOut') e = 1 - (1 - t) * (1 - t);
+      else if (easing === 'spring')  e = springEase(t);
+      else e = t;
       onUpdate(e);
       if (t < 1) requestAnimationFrame(tick);
       else if (onComplete) onComplete();
@@ -277,15 +212,13 @@
     requestAnimationFrame(tick);
   }
 
-  /* Spring ease: overshoots slightly then settles */
   function springEase(t) {
-    const c4 = (2 * Math.PI) / 3;
     if (t === 0) return 0;
     if (t === 1) return 1;
+    const c4 = (2 * Math.PI) / 3;
     return Math.pow(2, -8 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
   }
 
-  /* ── Bubble spawner ──────────────────────────────────────────── */
   function spawnBubble(container, x, yBase) {
     if (!container) return;
     const b = document.createElement('div');

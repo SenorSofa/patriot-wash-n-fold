@@ -171,7 +171,7 @@ p:last-child { margin-bottom: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 84px;
 }
 
 .nav__logo {
@@ -182,23 +182,25 @@ p:last-child { margin-bottom: 0; }
   min-height: var(--tap-min);
 }
 
-.nav__logo img { width: 64px; height: 64px; object-fit: contain; }
+.nav__logo img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
 
 .nav__logo-text {
   font-family: var(--font-heading);
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   font-weight: 900;
-  letter-spacing: 0.04em;
-  line-height: 1.05;
-  color: var(--color-white);
+  letter-spacing: 0.03em;
+  line-height: 1.0;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 .nav__logo-text span {
   display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  opacity: 0.88;
+  text-transform: none;
 }
 
 /* Desktop nav links — hidden on mobile */
@@ -586,8 +588,8 @@ p:last-child { margin-bottom: 0; }
 
 .wizard-option__icon { font-size: 2rem; flex-shrink: 0; }
 .wizard-option__body {}
-.wizard-option__title { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
-.wizard-option__desc { font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; }
+.wizard-option__title { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; color: #ffffff; }
+.wizard-option__desc { font-size: 0.82rem; color: #c9d8e0; line-height: 1.5; }
 
 /* Payment comparison — stacked on mobile */
 .payment-comparison {
