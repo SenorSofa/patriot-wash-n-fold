@@ -6,9 +6,139 @@
   <title>Patriot Wash N Fold — Laundry Service for DBU Students</title>
   <meta name="description" content="Patriot Wash N Fold provides weekly pick-up and delivery laundry service for Dallas Baptist University students. Sign up for a semester subscription and never worry about laundry again." />
   <link rel="canonical" href="https://patriotwashnfold.com/" />
-  <meta property="og:title" content="Patriot Wash N Fold — DBU Laundry Service" />
-  <meta property="og:description" content="Weekly pick-up and delivery laundry service for DBU students. Clean clothes, zero effort." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Patriot Wash N Fold — Laundry Pick-Up &amp; Delivery for DBU Students" />
+  <meta property="og:description" content="Weekly laundry pick-up and delivery service for Dallas Baptist University students. Clean clothes every week, starting at $300/semester. No sorting, no quarters, no hassle." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://patriotwashnfold.com/" />
+  <meta property="og:image" content="https://patriotwashnfold.com/assets/logo.webp" />
+  <meta property="og:site_name" content="Patriot Wash N Fold" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Patriot Wash N Fold — DBU Laundry Service" />
+  <meta name="twitter:description" content="Weekly laundry pick-up and delivery for Dallas Baptist University students. Starting at $300/semester." />
+  <meta name="twitter:image" content="https://patriotwashnfold.com/assets/logo.webp" />
+
+  <!-- Additional SEO -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Patriot Wash N Fold" />
+  <meta name="geo.region" content="US-TX" />
+  <meta name="geo.placename" content="Dallas, Texas" />
+  <meta name="geo.position" content="32.7767;-96.7970" />
+  <meta name="ICBM" content="32.7767, -96.7970" />
+
+  <!-- Structured Data: LocalBusiness + Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://patriotwashnfold.com/#business",
+        "name": "Patriot Wash N Fold",
+        "description": "Laundry pick-up and delivery subscription service for Dallas Baptist University students. Weekly and bi-weekly plans available.",
+        "url": "https://patriotwashnfold.com",
+        "logo": "https://patriotwashnfold.com/assets/logo.webp",
+        "image": "https://patriotwashnfold.com/assets/logo.webp",
+        "telephone": "+18557720700",
+        "email": "support@patriotwashnfold.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "2760 E. Trinity Mills, Ste 112",
+          "addressLocality": "Carrollton",
+          "addressRegion": "TX",
+          "postalCode": "75006",
+          "addressCountry": "US"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          }
+        ],
+        "areaServed": {
+          "@type": "Place",
+          "name": "Dallas Baptist University, Dallas, TX"
+        },
+        "priceRange": "$50-$640",
+        "sameAs": ["https://patriotwashnfold.com"]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://patriotwashnfold.com/#service",
+        "name": "Laundry Pick-Up and Delivery Service",
+        "description": "Weekly and bi-weekly laundry pick-up, washing, drying, folding, and delivery service for Dallas Baptist University students. Flat-rate pricing, 48-hour turnaround.",
+        "provider": {"@id": "https://patriotwashnfold.com/#business"},
+        "areaServed": "Dallas Baptist University, Dallas, TX",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Laundry Service Plans",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Red Plan — Weekly Laundry Service",
+              "description": "16 washes per semester, weekly pick-up and delivery at Crowley dorm.",
+              "price": "600.00",
+              "priceCurrency": "USD",
+              "priceSpecification": {"@type": "UnitPriceSpecification", "price": "600.00", "priceCurrency": "USD", "unitText": "semester"}
+            },
+            {
+              "@type": "Offer",
+              "name": "White Plan — Bi-Weekly Laundry Service",
+              "description": "8 washes per semester, bi-weekly pick-up and delivery at Crowley dorm.",
+              "price": "300.00",
+              "priceCurrency": "USD",
+              "priceSpecification": {"@type": "UnitPriceSpecification", "price": "300.00", "priceCurrency": "USD", "unitText": "semester"}
+            },
+            {
+              "@type": "Offer",
+              "name": "Blue Plan — Single Wash",
+              "description": "One-time laundry wash, no subscription required.",
+              "price": "50.00",
+              "priceCurrency": "USD"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://patriotwashnfold.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does Patriot Wash N Fold work?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Sign up online, fill your Big Red Patriot bag with dirty laundry, and drop it off at Crowley dorm on Tuesday between 12-2 PM. We collect it, wash, dry, and fold everything, then return it Thursday between 12-2 PM."}
+          },
+          {
+            "@type": "Question",
+            "name": "How much does the laundry service cost at DBU?",
+            "acceptedAnswer": {"@type": "Answer", "text": "The Red Plan (weekly, 16 washes) is $600 per semester paid upfront or $40/week. The White Plan (bi-weekly, 8 washes) is $300 per semester upfront or $40 every two weeks. The Blue Plan is a single wash for $50. All prices before tax."}
+          },
+          {
+            "@type": "Question",
+            "name": "Do unused laundry washes roll over?",
+            "acceptedAnswer": {"@type": "Answer", "text": "No. Unused washes do not roll over. Each semester's washes are for that semester only."}
+          },
+          {
+            "@type": "Question",
+            "name": "Where do I drop off my laundry at Dallas Baptist University?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Drop off and pick up is at Crowley dormitory on the DBU campus. Pick-up is every Tuesday 12-2 PM and delivery is every Thursday 12-2 PM."}
+          },
+          {
+            "@type": "Question",
+            "name": "Will my clothes get mixed with other students' laundry?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Never. Each order is washed completely separately. Your clothes stay together and are returned exclusively to you."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
