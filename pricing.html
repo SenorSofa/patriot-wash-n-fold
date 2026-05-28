@@ -304,11 +304,19 @@
 
             <hr class="divider" />
 
-            <!-- Single combined acknowledgment checkbox -->
+            <!-- Checkbox 1: Terms, annual subscription, no-rollover -->
             <div class="form-checkbox-group">
-              <input class="form-checkbox" type="checkbox" id="ack-all" name="ackAll" required />
-              <label class="form-checkbox-label" for="ack-all">
-                I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. I understand that Red and White plans are <strong>annual subscriptions billed per semester</strong>, unused washes do not roll over, and subscriptions do not auto-renew year-to-year. I consent to receive communications from Patriot Wash N Fold via email, SMS, and phone regarding my service, billing, and account updates. Message and data rates may apply. Reply STOP to opt out of SMS.
+              <input class="form-checkbox" type="checkbox" id="ack-terms" name="ackTerms" required />
+              <label class="form-checkbox-label" for="ack-terms">
+                I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. I understand that Red and White plans are <strong>annual subscriptions billed per semester</strong>, unused washes do not roll over, and subscriptions do not auto-renew year-to-year.
+              </label>
+            </div>
+
+            <!-- Checkbox 2: Communication consent -->
+            <div class="form-checkbox-group">
+              <input class="form-checkbox" type="checkbox" id="ack-comms" name="ackComms" required />
+              <label class="form-checkbox-label" for="ack-comms">
+                I consent to receive communications from Patriot Wash N Fold via email, SMS, and phone regarding my service, billing, and account updates. Message and data rates may apply. Reply STOP to opt out of SMS at any time.
               </label>
             </div>
 
