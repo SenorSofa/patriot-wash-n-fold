@@ -72,7 +72,8 @@
           <h2 class="wizard-question" id="wizard-heading">How often do you want your laundry done?</h2>
           <div class="wizard-options" role="group" aria-label="Frequency options">
 
-            <button class="wizard-option" data-frequency="weekly" aria-label="Every week — Red Plan, 16 washes">
+            <button class="wizard-option" data-frequency="weekly" aria-label="Red Plan — Every week, 16 washes">
+              <div style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #e74c3c; margin-bottom: 6px;">Red Plan</div>
               <div class="wizard-option__icon" aria-hidden="true">🔴</div>
               <div class="wizard-option__body">
                 <div class="wizard-option__title">Every Week</div>
@@ -80,7 +81,8 @@
               </div>
             </button>
 
-            <button class="wizard-option" data-frequency="biweekly" aria-label="Every other week — White Plan, 8 washes">
+            <button class="wizard-option" data-frequency="biweekly" aria-label="White Plan — Every other week, 8 washes">
+              <div style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #c9d8e0; margin-bottom: 6px;">White Plan</div>
               <div class="wizard-option__icon" aria-hidden="true">⚪</div>
               <div class="wizard-option__body">
                 <div class="wizard-option__title">Every Other Week</div>
@@ -88,7 +90,8 @@
               </div>
             </button>
 
-            <button class="wizard-option" data-frequency="once" aria-label="As Needed — Blue Plan, $50">
+            <button class="wizard-option" data-frequency="once" aria-label="Blue Plan — As Needed, $50">
+              <div style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #5dade2; margin-bottom: 6px;">Blue Plan</div>
               <div class="wizard-option__icon" aria-hidden="true">🔵</div>
               <div class="wizard-option__body">
                 <div class="wizard-option__title">As Needed</div>
@@ -232,7 +235,7 @@
           <span class="annual-notice__icon" aria-hidden="true">ℹ️</span>
           <div>
             <strong style="color: var(--color-white);">About the Red &amp; White Plans:</strong>
-            These are annual subscriptions billed at the beginning of each semester. You can start in fall or spring — you simply pay for whichever semester(s) you're enrolled. Subscriptions do not auto-renew year-to-year; you re-enroll each academic year. Unused washes do not roll over — each semester's washes are for that semester only. The Blue Plan has no subscription and no recurring charges.
+            These are annual subscriptions billed at the beginning of each semester. When purchased for the Fall Semester, the plan will auto-renew for the Spring Semester. Subscriptions do not auto-renew year-to-year — you must re-enroll each academic year. Unused washes do not roll over — each semester's washes are for that semester only. The Blue Plan is not a subscription; it is single use with no recurring charges.
           </div>
         </div>
       </div>
@@ -276,11 +279,6 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="field-dorm-room">Dorm &amp; Room Number <span style="color:var(--color-red);" aria-label="required">*</span></label>
-              <input class="form-input" type="text" id="field-dorm-room" name="dormRoom" placeholder="Crowley 214" required inputmode="text" />
-            </div>
-
-            <div class="form-group">
               <label class="form-label" for="field-parent-email">Parent / Guardian Email <span style="color:var(--color-red);" aria-label="required">*</span></label>
               <input class="form-input" type="email" id="field-parent-email" name="parentEmail" placeholder="parent@email.com" required autocomplete="off" inputmode="email" />
               <div style="font-size: 0.76rem; color: var(--color-text-muted); margin-top: 5px;">Billing confirmations will also be sent here.</div>
@@ -293,11 +291,6 @@
                 <option value="hypoallergenic">Hypoallergenic / Fragrance-Free</option>
                 <option value="no-preference">No Preference</option>
               </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="field-notes">Special Instructions (optional)</label>
-              <input class="form-input" type="text" id="field-notes" name="specialNotes" placeholder="e.g. delicate items, allergies…" inputmode="text" />
             </div>
 
             <input type="hidden" id="field-plan" name="selectedPlan" value="" />
