@@ -163,55 +163,69 @@
 
       </div><!-- end plan-wizard -->
 
-      <!-- Full Comparison Table -->
+      <!-- Friendly Plan Summary Cards (replaces dense table) -->
       <div class="mt-32 fade-in">
-        <h3 class="text-center" style="font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 20px;">Full Plan Comparison</h3>
-        <div class="plan-table-wrap">
-          <table class="plan-table" aria-label="Plan comparison table">
-            <thead>
-              <tr>
-                <th>Plan</th>
-                <th>Frequency</th>
-                <th>Washes</th>
-                <th>Upfront</th>
-                <th>Split</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="plan-name">Red Plan</span><br>
-                  <span class="plan-badge plan-badge--red">Most Popular</span>
-                </td>
-                <td>Weekly</td>
-                <td>16/semester</td>
-                <td><strong>$600</strong></td>
-                <td>$40/wk × 16 = <strong>$640</strong></td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="plan-name">White Plan</span><br>
-                  <span class="plan-badge plan-badge--white">Bi-Weekly</span>
-                </td>
-                <td>Every 2 wks</td>
-                <td>8/semester</td>
-                <td><strong>$300</strong></td>
-                <td>$40/2wks × 8 = <strong>$320</strong></td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="plan-name">Blue Plan</span><br>
-                  <span class="plan-badge plan-badge--blue">One-Time</span>
-                </td>
-                <td>Single wash</td>
-                <td>1</td>
-                <td><strong>$50</strong></td>
-                <td>N/A</td>
-              </tr>
-            </tbody>
-          </table>
+        <h3 class="text-center" style="font-size: 1rem; font-weight: 700; color: var(--color-text-muted); margin-bottom: 24px;">Quick Plan Summary</h3>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+
+          <!-- Red Plan -->
+          <div style="background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); border-radius: var(--radius-md); padding: 18px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.4rem;">🔴</span>
+                <div>
+                  <div style="font-weight: 800; font-size: 1.05rem;">Red Plan</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted);">Weekly · 16 washes/semester</div>
+                </div>
+              </div>
+              <span class="plan-badge plan-badge--red">Most Popular</span>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.85rem;">
+                💳 Pay upfront: <strong>$600</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.85rem;">
+                📅 Weekly: <strong>$40/wk</strong> <span style="color: var(--color-text-muted); font-size: 0.78rem;">(= $640 total)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- White Plan -->
+          <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); padding: 18px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.4rem;">⚪</span>
+                <div>
+                  <div style="font-weight: 800; font-size: 1.05rem;">White Plan</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted);">Bi-Weekly · 8 washes/semester</div>
+                </div>
+              </div>
+              <span class="plan-badge plan-badge--white">Bi-Weekly</span>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.85rem;">
+                💳 Pay upfront: <strong>$300</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.85rem;">
+                📅 Bi-weekly: <strong>$40/2wks</strong> <span style="color: var(--color-text-muted); font-size: 0.78rem;">(= $320 total)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blue Plan -->
+          <div style="background: rgba(52,152,219,0.08); border: 1px solid rgba(52,152,219,0.2); border-radius: var(--radius-md); padding: 18px 20px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.4rem;">🔵</span>
+              <div>
+                <div style="font-weight: 800; font-size: 1.05rem;">Blue Plan — <strong style="color: #5dade2;">$50</strong></div>
+                <div style="font-size: 0.78rem; color: var(--color-text-muted);">Single wash · No subscription · One and done</div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <p style="font-size: 0.78rem; color: var(--color-text-muted); text-align: center; margin-top: 10px;">All prices before tax. Sales tax (8.25%) added at checkout.</p>
+        <p style="font-size: 0.78rem; color: var(--color-text-muted); text-align: center; margin-top: 14px;">All prices before tax. Sales tax (8.25%) added at checkout.</p>
 
         <!-- Annual Subscription Notice -->
         <div class="annual-notice fade-in" role="note" aria-label="Annual subscription notice">
