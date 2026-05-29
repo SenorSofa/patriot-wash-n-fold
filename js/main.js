@@ -237,6 +237,12 @@ function initPlanWizard() {
         window._selectedPlanName = planName;
         window._selectedStripeLink = stripeLink;
 
+        // Show/hide weekly billing note
+        const weeklyNote = document.getElementById('weekly-billing-note');
+        if (weeklyNote) {
+          weeklyNote.style.display = (planKey === 'red_weekly' || planKey === 'white_biweekly') ? 'block' : 'none';
+        }
+
         // Update checkout form display
         const formPlanDisplay = document.getElementById('checkout-plan-name');
         if (formPlanDisplay) formPlanDisplay.textContent = planName;

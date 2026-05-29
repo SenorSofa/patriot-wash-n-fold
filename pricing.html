@@ -154,8 +154,11 @@
               <div style="height: 28px; margin-bottom: 16px;"></div>
               <div class="payment-card__features">
                 Spread out the cost.<br>
-                Auto-charged each period.<br>
+                Auto-charged each billing period.<br>
                 <span id="payment-split-total" style="color: var(--color-text-muted); font-size: 0.82rem;">Total: $640/semester</span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--color-gold); background: rgba(244,196,48,0.08); border-radius: 6px; padding: 8px 10px; margin-bottom: 14px; line-height: 1.5;">
+                We'll charge your first week today to lock in your spot. After that, payments kick in starting your second week of service — no charges in between.
               </div>
               <button class="btn btn--outline" data-payment="split" aria-label="Choose split payment option">Choose Split Payments</button>
             </div>
@@ -345,6 +348,9 @@
               🔒 Secure checkout by Stripe. We never store your card details.<br>
               Sales tax (8.25%) calculated automatically at checkout.
             </p>
+            <div id="weekly-billing-note" style="display:none; margin-top: 12px; background: rgba(244,196,48,0.08); border: 1px solid rgba(244,196,48,0.25); border-radius: 8px; padding: 10px 14px; font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.55; text-align: center;">
+              📅 <strong style="color: var(--color-white);">Weekly plan:</strong> We'll charge your first week today to lock in your spot. After that, payments kick in starting your second week of service — no charges in between.
+            </div>
 
           </form>
 
