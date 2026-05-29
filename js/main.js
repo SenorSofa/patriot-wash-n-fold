@@ -14,11 +14,11 @@ const CONFIG = {
   // Stripe Payment Links — Replace with your actual Stripe Payment Link URLs
   // See STRIPE_SETUP.md for instructions on creating these in Stripe Dashboard
   STRIPE_LINKS: {
-    red_upfront:   'https://buy.stripe.com/REPLACE_RED_UPFRONT',
-    red_weekly:    'https://buy.stripe.com/REPLACE_RED_WEEKLY',
-    white_upfront: 'https://buy.stripe.com/REPLACE_WHITE_UPFRONT',
-    white_biweekly:'https://buy.stripe.com/REPLACE_WHITE_BIWEEKLY',
-    blue:          'https://buy.stripe.com/REPLACE_BLUE',
+    red_upfront:    'https://buy.stripe.com/bJe5kDgKNeG21Cl5uC5J606',
+    red_weekly:     'https://buy.stripe.com/28E28r7adeG2cgZ1em5J607',
+    white_upfront:  'https://buy.stripe.com/4gM14ncuxfK6a8R7CK5J608',
+    white_biweekly: 'https://buy.stripe.com/14AfZh525cxU6WFg9g5J609',
+    blue:           'https://buy.stripe.com/fZu6oH1PTgOacgZ4qy5J60a',
   },
 
   // Plan display names for the checkout form
