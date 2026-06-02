@@ -9,7 +9,7 @@ const CONFIG = {
   // GHL Webhook URL — Replace with your actual GHL webhook URL
   // Steve: go to GHL > Settings > Integrations > Webhooks and create
   // a new inbound webhook, then paste the URL here.
-  GHL_WEBHOOK_URL: 'https://services.leadconnectorhq.com/hooks/b6dwywQfMCvXAy4PDicG/webhook-trigger/c6d83f53-4139-4d80-83cd-49abcd9c2125',
+  GHL_WEBHOOK_URL: 'https://services.leadconnectorhq.com/hooks/b6dwywQfMCvXAy4PDicG/webhook-trigger/22251fb0-4750-4a1f-8fde-73cd01b3cdb2',
 
   // Stripe Payment Links — Replace with your actual Stripe Payment Link URLs
   // See STRIPE_SETUP.md for instructions on creating these in Stripe Dashboard
