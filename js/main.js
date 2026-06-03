@@ -350,16 +350,29 @@ function initCheckoutForm() {
         throw new Error(`Webhook returned status ${response.status}`);
       }
 
-      // Success — redirect to Stripe
+      // Success — redirect to Stripe with student email appended
+      // client_reference_id passes through to checkout.session.completed webhook
+      // so GHL can match the existing contact by student email
       const stripeLink = window._selectedStripeLink || CONFIG.STRIPE_LINKS.blue;
-      window.location.href = stripeLink;
+      const studentEmail = data.email || '';
+      const stripeUrl = new URL(stripeLink);
+      if (studentEmail) {
+        stripeUrl.searchParams.set('client_reference_id', studentEmail);
+        stripeUrl.searchParams.set('prefilled_email', studentEmail);
+      }
+      window.location.href = stripeUrl.toString();
 
     } catch (err) {
       console.error('GHL webhook error:', err);
-      // Even if webhook fails, we still redirect to Stripe
-      // (contact capture is best-effort; payment must not be blocked)
+      // Even if webhook fails, redirect to Stripe with email params
       const stripeLink = window._selectedStripeLink || CONFIG.STRIPE_LINKS.blue;
-      window.location.href = stripeLink;
+      const fallbackEmail = form.querySelector('#field-email')?.value.trim() || '';
+      const fallbackUrl = new URL(stripeLink);
+      if (fallbackEmail) {
+        fallbackUrl.searchParams.set('client_reference_id', fallbackEmail);
+        fallbackUrl.searchParams.set('prefilled_email', fallbackEmail);
+      }
+      window.location.href = fallbackUrl.toString();
     }
   });
 }
