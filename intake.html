@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Patriot Wash N Fold — Pickup Intake</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #051b38;
+      --red:   #a20d33;
+      --gold:  #f4c430;
+      --white: #ffffff;
+      --bg:    #f0f4f8;
+      --card:  #ffffff;
+      --text:  #1a1a2e;
+      --muted: #6b7280;
+      --green: #16a34a;
+      --green-light: #dcfce7;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── PIN SCREEN ── */
+    #pin-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background: var(--navy);
+    }
+
+    .pin-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+    }
+
+    .pin-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .pin-subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .pin-input {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      color: var(--white);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-align: center;
+      padding: 16px 24px;
+      width: 100%;
+      max-width: 280px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .pin-input:focus {
+      border-color: var(--gold);
+    }
+
+    .pin-input::placeholder {
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    .pin-btn {
+      margin-top: 16px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 16px 40px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 280px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .pin-btn:active { transform: scale(0.97); }
+    .pin-btn:hover  { background: #8b0a2b; }
+
+    .pin-error {
+      margin-top: 12px;
+      color: #fca5a5;
+      font-size: 0.88rem;
+      text-align: center;
+      display: none;
+    }
+
+    /* ── INTAKE SCREEN ── */
+    #intake-screen {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .intake-header {
+      background: var(--navy);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .intake-header img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+    }
+
+    .intake-header-text {
+      flex: 1;
+    }
+
+    .intake-header-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .intake-header-sub {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .intake-date {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(244,196,48,0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .intake-body {
+      padding: 20px 16px 120px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .intake-instructions {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--red);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .intake-instructions strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.92rem;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e5e7eb;
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .student-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .student-tile {
+      background: var(--card);
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
+
+    .student-tile:active {
+      transform: scale(0.96);
+    }
+
+    .student-tile.selected {
+      background: var(--green-light);
+      border-color: var(--green);
+    }
+
+    .student-tile.selected .student-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .student-check {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 22px;
+      height: 22px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.2s ease;
+    }
+
+    .student-check svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .student-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+
+    .student-tile.selected .student-avatar {
+      background: var(--green);
+    }
+
+    .student-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .student-tile.selected .student-name {
+      color: var(--green);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    /* ── SUBMIT BAR ── */
+    .submit-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid #e5e7eb;
+      padding: 16px 20px;
+      padding-bottom: calc(16px + env(safe-area-inset-bottom));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 20;
+    }
+
+    .submit-count {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .submit-count strong {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, opacity 0.2s;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .submit-btn:not(:disabled):active { transform: scale(0.97); }
+    .submit-btn:not(:disabled):hover  { background: #8b0a2b; }
+
+    /* ── SUCCESS SCREEN ── */
+    #success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      background: var(--navy);
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .success-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .success-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      max-width: 320px;
+      margin: 0 auto 32px;
+    }
+
+    .success-names {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 360px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .success-names-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .success-name-item {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .success-name-item:last-child { border-bottom: none; }
+
+    .reset-btn {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .reset-btn:hover { background: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+<!-- ── PIN SCREEN ── -->
+<div id="pin-screen">
+  <img src="assets/logo.webp" alt="Patriot Wash N Fold" class="pin-logo" />
+  <div class="pin-title">Pickup Intake</div>
+  <div class="pin-subtitle">Enter your PIN to continue</div>
+  <input
+    type="text"
+    id="pin-input"
+    class="pin-input"
+    placeholder="PIN"
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="characters"
+    spellcheck="false"
+    maxlength="10"
+  />
+  <button class="pin-btn" id="pin-btn" onclick="checkPin()">Enter</button>
+  <div class="pin-error" id="pin-error">Incorrect PIN. Try again.</div>
+</div>
+
+<!-- ── INTAKE SCREEN ── -->
+<div id="intake-screen">
+  <header class="intake-header">
+    <img src="assets/logo.webp" alt="Logo" />
+    <div class="intake-header-text">
+      <div class="intake-header-title">Pickup Intake</div>
+      <div class="intake-header-sub">Tap students who dropped off today</div>
+    </div>
+    <div class="intake-date" id="intake-date"></div>
+  </header>
+
+  <div class="intake-body">
+    <div class="intake-instructions">
+      <strong>How to use:</strong>
+      Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they'll automatically receive a confirmation text.
+    </div>
+
+    <div id="student-container">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        Loading active subscribers…
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-bar">
+    <div class="submit-count">
+      <strong id="selected-count">0</strong> selected
+    </div>
+    <button class="submit-btn" id="submit-btn" disabled onclick="submitIntake()">
+      Send Texts →
+    </button>
+  </div>
+</div>
+
+<!-- ── SUCCESS SCREEN ── -->
+<div id="success-screen">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="success-title">Texts Sent! 🎉</div>
+  <div class="success-sub">All selected students have been notified that their laundry was received.</div>
+  <div class="success-names" id="success-names-list"></div>
+  <button class="reset-btn" onclick="resetIntake()">Start New Pickup</button>
+</div>
+
+<script>
+  const CORRECT_PIN = 'JOE';
+  let allStudents   = [];
+  let selectedIds   = new Set();
+
+  // ── PIN CHECK ──
+  function checkPin() {
+    const val = document.getElementById('pin-input').value.trim().toUpperCase();
+    if (val === CORRECT_PIN) {
+      document.getElementById('pin-screen').style.display  = 'none';
+      document.getElementById('intake-screen').style.display = 'block';
+      setDate();
+      loadStudents();
+    } else {
+      const errEl = document.getElementById('pin-error');
+      errEl.style.display = 'block';
+      document.getElementById('pin-input').value = '';
+      setTimeout(() => { errEl.style.display = 'none'; }, 3000);
+    }
+  }
+
+  // Allow Enter key on PIN input
+  document.getElementById('pin-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPin();
+  });
+
+  // ── DATE ──
+  function setDate() {
+    const d = new Date();
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('intake-date').textContent =
+      `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()}`;
+  }
+
+  // ── LOAD STUDENTS ──
+  async function loadStudents() {
+    const container = document.getElementById('student-container');
+    try {
+      const res = await fetch('/api/students');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      allStudents = data.students || [];
+
+      if (allStudents.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3>No active subscribers</h3>
+            <p>No students currently have the pwnf-subscriber tag in GHL.</p>
+          </div>`;
+        return;
+      }
+
+      renderStudents();
+    } catch (err) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>Couldn't load students</h3>
+          <p>Check your connection and try refreshing. (${err.message})</p>
+        </div>`;
+    }
+  }
+
+  // ── RENDER TILES ──
+  function renderStudents() {
+    const container = document.getElementById('student-container');
+    const grid = document.createElement('div');
+    grid.className = 'student-grid';
+
+    allStudents.forEach(student => {
+      const tile = document.createElement('div');
+      tile.className = 'student-tile';
+      tile.dataset.id = student.id;
+
+      const initials = ((student.firstName[0] || '') + (student.lastName[0] || '')).toUpperCase();
+
+      tile.innerHTML = `
+        <div class="student-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="student-avatar">${initials}</div>
+        <div class="student-name">${student.firstName}<br>${student.lastName}</div>
+      `;
+
+      tile.addEventListener('click', () => toggleStudent(student.id, tile));
+      grid.appendChild(tile);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+  }
+
+  // ── TOGGLE SELECTION ──
+  function toggleStudent(id, tile) {
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+      tile.classList.remove('selected');
+    } else {
+      selectedIds.add(id);
+      tile.classList.add('selected');
+    }
+    updateCount();
+  }
+
+  function updateCount() {
+    const count = selectedIds.size;
+    document.getElementById('selected-count').textContent = count;
+    document.getElementById('submit-btn').disabled = count === 0;
+  }
+
+  // ── SUBMIT ──
+  async function submitIntake() {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const selected = allStudents.filter(s => selectedIds.has(s.id));
+
+    try {
+      const res = await fetch('/api/intake-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ students: selected })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      // Show success screen
+      document.getElementById('intake-screen').style.display = 'none';
+      const successScreen = document.getElementById('success-screen');
+      successScreen.style.display = 'flex';
+
+      const namesList = document.getElementById('success-names-list');
+      namesList.innerHTML = `<div class="success-names-title">Texts sent to:</div>` +
+        selected.map(s => `<div class="success-name-item">${s.firstName} ${s.lastName}</div>`).join('');
+
+    } catch (err) {
+      alert(`Something went wrong: ${err.message}. Please try again.`);
+      btn.disabled = false;
+      btn.textContent = 'Send Texts →';
+    }
+  }
+
+  // ── RESET ──
+  function resetIntake() {
+    selectedIds.clear();
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('intake-screen').style.display  = 'block';
+    updateCount();
+    loadStudents(); // refresh the list
+  }
+</script>
+</body>
+</html>

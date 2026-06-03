@@ -1,17 +1,19 @@
 /**
  * PATRIOT WASH N FOLD — Cloudflare Worker
- * 
- * Handles two routes:
- *   POST /api/checkout  — Creates a Stripe Checkout Session with fixed 8.25% Texas tax
- *                         and fires GHL contact capture webhook before redirecting
- *   POST /api/webhook   — Receives Stripe checkout.session.completed events and
- *                         fires GHL post-payment webhook to tag contact as subscriber
- * 
- * Environment variables required (set in Cloudflare Workers dashboard):
- *   STRIPE_SECRET_KEY      — sk_live_... (your Stripe live secret key)
- *   STRIPE_WEBHOOK_SECRET  — whsec_... (from Stripe webhook endpoint settings)
- *   GHL_SIGNUP_WEBHOOK     — GHL inbound webhook URL for contact capture
- *   GHL_PAYMENT_WEBHOOK    — GHL inbound webhook URL for post-payment subscriber tagging
+ *
+ * Routes:
+ *   POST /api/checkout       — Creates Stripe Checkout Session with fixed 8.25% TX tax
+ *   POST /api/webhook        — Receives Stripe checkout.session.completed, fires GHL post-payment
+ *   GET  /api/students       — Returns active subscribers (pwnf-subscriber tag) from GHL
+ *   POST /api/intake-submit  — Fires GHL webhook for each student Joe selected at pickup
+ *
+ * Required Cloudflare secrets:
+ *   STRIPE_SECRET_KEY        rk_live_... (restricted Stripe key)
+ *   STRIPE_WEBHOOK_SECRET    whsec_...
+ *   GHL_SIGNUP_WEBHOOK       GHL inbound webhook — contact capture
+ *   GHL_PAYMENT_WEBHOOK      GHL inbound webhook — post-payment subscriber tag
+ *   GHL_INTAKE_WEBHOOK       GHL inbound webhook — laundry received notification
+ *   GHL_API_KEY              pit-... (GHL private integration token)
  */
 
 const PRICE_IDS = {
@@ -22,19 +24,16 @@ const PRICE_IDS = {
   blue:           'price_1TcRfKGZqppInSm2faPGT0JD',
 };
 
-const TAX_RATE_ID = 'txr_1TeGJCGZqppInSm2RSWSLwkZ'; // Texas Sales Tax 8.25%
-
-const SUCCESS_URL = 'https://patriotwashnfold.com/?signup=success';
-const CANCEL_URL  = 'https://patriotwashnfold.com/pricing.html';
-
-// Recurring plan keys (need subscription mode)
+const TAX_RATE_ID    = 'txr_1TeGJCGZqppInSm2RSWSLwkZ';
+const GHL_LOCATION   = 'b6dwywQfMCvXAy4PDicG';
+const SUCCESS_URL    = 'https://patriotwashnfold.com/?signup=success';
+const CANCEL_URL     = 'https://patriotwashnfold.com/pricing.html';
 const RECURRING_PLANS = new Set(['red_weekly', 'white_biweekly']);
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // CORS preflight
     if (request.method === 'OPTIONS') {
       return corsResponse(null, 204);
     }
@@ -42,89 +41,79 @@ export default {
     if (url.pathname === '/api/checkout' && request.method === 'POST') {
       return handleCheckout(request, env);
     }
-
     if (url.pathname === '/api/webhook' && request.method === 'POST') {
       return handleStripeWebhook(request, env);
+    }
+    if (url.pathname === '/api/students' && request.method === 'GET') {
+      return handleGetStudents(request, env);
+    }
+    if (url.pathname === '/api/intake-submit' && request.method === 'POST') {
+      return handleIntakeSubmit(request, env);
     }
 
     return new Response('Not found', { status: 404 });
   }
 };
 
-// ─── CHECKOUT HANDLER ────────────────────────────────────────────────────────
+// ─── CHECKOUT ────────────────────────────────────────────────────────────────
 
 async function handleCheckout(request, env) {
   let body;
-  try {
-    body = await request.json();
-  } catch {
-    return corsResponse({ error: 'Invalid JSON' }, 400);
-  }
+  try { body = await request.json(); }
+  catch { return corsResponse({ error: 'Invalid JSON' }, 400); }
 
   const { firstName, lastName, email, phone, parentEmail, selectedPlan, detergentPref } = body;
-
   if (!email || !selectedPlan || !PRICE_IDS[selectedPlan]) {
     return corsResponse({ error: 'Missing required fields' }, 400);
   }
 
-  const priceId  = PRICE_IDS[selectedPlan];
+  const priceId     = PRICE_IDS[selectedPlan];
   const isRecurring = RECURRING_PLANS.has(selectedPlan);
 
-  // 1. Fire GHL contact capture webhook (before Stripe — guaranteed capture)
+  // 1. Fire GHL contact capture (before Stripe — guaranteed)
   try {
     await fetch(env.GHL_SIGNUP_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName, lastName, email, phone,
-        parentEmail, selectedPlan, detergentPref,
-        source: 'patriotwashnfold.com'
-      })
+      body: JSON.stringify({ firstName, lastName, email, phone, parentEmail, selectedPlan, detergentPref, source: 'patriotwashnfold.com' })
     });
-  } catch (e) {
-    // GHL failure must not block payment
-    console.error('GHL signup webhook failed:', e.message);
-  }
+  } catch (e) { console.error('GHL signup webhook failed:', e.message); }
 
-  // 2. Build Stripe Checkout Session params
-  const sessionParams = new URLSearchParams();
-  sessionParams.append('success_url', SUCCESS_URL);
-  sessionParams.append('cancel_url', CANCEL_URL);
-  sessionParams.append('customer_email', email);
-  sessionParams.append('client_reference_id', email);
-  sessionParams.append('allow_promotion_codes', 'true');
+  // 2. Create Stripe Checkout Session
+  const params = new URLSearchParams();
+  params.append('success_url', SUCCESS_URL);
+  params.append('cancel_url', CANCEL_URL);
+  params.append('customer_email', email);
+  params.append('client_reference_id', email);
+  params.append('allow_promotion_codes', 'true');
 
   if (isRecurring) {
-    sessionParams.append('mode', 'subscription');
-    sessionParams.append('line_items[0][price]', priceId);
-    sessionParams.append('line_items[0][quantity]', '1');
-    sessionParams.append('subscription_data[default_tax_rates][0]', TAX_RATE_ID);
-    // Pass student info as metadata on the subscription
-    sessionParams.append('subscription_data[metadata][studentEmail]', email);
-    sessionParams.append('subscription_data[metadata][selectedPlan]', selectedPlan);
+    params.append('mode', 'subscription');
+    params.append('line_items[0][price]', priceId);
+    params.append('line_items[0][quantity]', '1');
+    params.append('subscription_data[default_tax_rates][0]', TAX_RATE_ID);
+    params.append('subscription_data[metadata][studentEmail]', email);
+    params.append('subscription_data[metadata][selectedPlan]', selectedPlan);
   } else {
-    sessionParams.append('mode', 'payment');
-    sessionParams.append('line_items[0][price]', priceId);
-    sessionParams.append('line_items[0][quantity]', '1');
-    sessionParams.append('line_items[0][tax_rates][0]', TAX_RATE_ID);
-    // Pass student info as metadata
-    sessionParams.append('payment_intent_data[metadata][studentEmail]', email);
-    sessionParams.append('payment_intent_data[metadata][selectedPlan]', selectedPlan);
+    params.append('mode', 'payment');
+    params.append('line_items[0][price]', priceId);
+    params.append('line_items[0][quantity]', '1');
+    params.append('line_items[0][tax_rates][0]', TAX_RATE_ID);
+    params.append('payment_intent_data[metadata][studentEmail]', email);
+    params.append('payment_intent_data[metadata][selectedPlan]', selectedPlan);
   }
 
-  // 3. Create Stripe Checkout Session
-  const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+  const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: sessionParams.toString()
+    body: params.toString()
   });
 
-  const session = await stripeResponse.json();
-
-  if (!stripeResponse.ok) {
+  const session = await stripeRes.json();
+  if (!stripeRes.ok) {
     console.error('Stripe error:', JSON.stringify(session));
     return corsResponse({ error: session.error?.message || 'Stripe error' }, 500);
   }
@@ -132,55 +121,122 @@ async function handleCheckout(request, env) {
   return corsResponse({ url: session.url }, 200);
 }
 
-// ─── STRIPE WEBHOOK HANDLER ───────────────────────────────────────────────────
+// ─── STRIPE WEBHOOK ───────────────────────────────────────────────────────────
 
 async function handleStripeWebhook(request, env) {
   const signature = request.headers.get('stripe-signature');
   const rawBody   = await request.text();
 
-  // Verify webhook signature
   if (env.STRIPE_WEBHOOK_SECRET) {
     const isValid = await verifyStripeSignature(rawBody, signature, env.STRIPE_WEBHOOK_SECRET);
-    if (!isValid) {
-      return new Response('Invalid signature', { status: 400 });
-    }
+    if (!isValid) return new Response('Invalid signature', { status: 400 });
   }
 
   let event;
-  try {
-    event = JSON.parse(rawBody);
-  } catch {
-    return new Response('Invalid JSON', { status: 400 });
-  }
+  try { event = JSON.parse(rawBody); }
+  catch { return new Response('Invalid JSON', { status: 400 }); }
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
+    const session     = event.data.object;
     const studentEmail = session.client_reference_id || session.customer_email;
-
-    // Fire GHL post-payment webhook to tag as subscriber and trigger welcome text
     try {
       await fetch(env.GHL_PAYMENT_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'checkout.session.completed',
-          studentEmail,
-          data: { object: session }
-        })
+        body: JSON.stringify({ type: 'checkout.session.completed', studentEmail, data: { object: session } })
       });
-    } catch (e) {
-      console.error('GHL payment webhook failed:', e.message);
-    }
+    } catch (e) { console.error('GHL payment webhook failed:', e.message); }
   }
 
   return new Response('ok', { status: 200 });
+}
+
+// ─── GET STUDENTS (for Joe's intake page) ────────────────────────────────────
+
+async function handleGetStudents(request, env) {
+  try {
+    // Use GHL Search Contacts API — filter by pwnf-subscriber tag
+    const ghlRes = await fetch(
+      `https://services.leadconnectorhq.com/contacts/?locationId=${GHL_LOCATION}&limit=100`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${env.GHL_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Version': '2021-07-28',
+        }
+      }
+    );
+
+    if (!ghlRes.ok) {
+      const errText = await ghlRes.text();
+      console.error('GHL API error:', ghlRes.status, errText);
+      return corsResponse({ error: 'Failed to fetch students' }, 500);
+    }
+
+    const data     = await ghlRes.json();
+    const contacts = data.contacts || [];
+
+    const students = contacts
+      .filter(c => Array.isArray(c.tags) && c.tags.includes('pwnf-subscriber'))
+      .map(c => ({
+        id:        c.id,
+        firstName: c.firstName || '',
+        lastName:  c.lastName  || '',
+        phone:     c.phone     || '',
+        email:     c.email     || '',
+      }))
+      .sort((a, b) => a.lastName.localeCompare(b.lastName));
+
+    return corsResponse({ students }, 200);
+
+  } catch (err) {
+    console.error('Students fetch error:', err.message);
+    return corsResponse({ error: 'Server error' }, 500);
+  }
+}
+
+// ─── INTAKE SUBMIT (Joe confirms pickups) ────────────────────────────────────
+
+async function handleIntakeSubmit(request, env) {
+  let body;
+  try { body = await request.json(); }
+  catch { return corsResponse({ error: 'Invalid JSON' }, 400); }
+
+  const { students } = body;
+  if (!students || !Array.isArray(students) || students.length === 0) {
+    return corsResponse({ error: 'No students provided' }, 400);
+  }
+
+  const results = await Promise.allSettled(
+    students.map(student =>
+      fetch(env.GHL_INTAKE_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactId:  student.id,
+          firstName:  student.firstName,
+          lastName:   student.lastName,
+          phone:      student.phone,
+          email:      student.email,
+          event:      'laundry_received',
+          timestamp:  new Date().toISOString(),
+        })
+      })
+    )
+  );
+
+  const succeeded = results.filter(r => r.status === 'fulfilled').length;
+  const failed    = results.filter(r => r.status === 'rejected').length;
+
+  return corsResponse({ success: true, sent: succeeded, failed }, 200);
 }
 
 // ─── STRIPE SIGNATURE VERIFICATION ───────────────────────────────────────────
 
 async function verifyStripeSignature(payload, header, secret) {
   if (!header) return false;
-  const parts = Object.fromEntries(header.split(',').map(p => p.split('=')));
+  const parts     = Object.fromEntries(header.split(',').map(p => p.split('=')));
   const timestamp = parts['t'];
   const signature = parts['v1'];
   if (!timestamp || !signature) return false;
@@ -193,7 +249,7 @@ async function verifyStripeSignature(payload, header, secret) {
     false,
     ['sign']
   );
-  const mac = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signedPayload));
+  const mac      = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signedPayload));
   const expected = Array.from(new Uint8Array(mac)).map(b => b.toString(16).padStart(2, '0')).join('');
   return expected === signature;
 }
@@ -202,8 +258,8 @@ async function verifyStripeSignature(payload, header, secret) {
 
 function corsResponse(body, status) {
   const headers = {
-    'Access-Control-Allow-Origin': 'https://patriotwashnfold.com',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Origin':  'https://patriotwashnfold.com',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json',
   };
