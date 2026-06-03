@@ -653,5 +653,15 @@
 
   <script src="js/main.js"></script>
   <script src="js/truck-animation.js"></script>
+  <script>
+    if (window.location.search.includes('signup=success')) {
+      const banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#27ae60;color:#fff;text-align:center;padding:18px 20px;font-family:Inter,sans-serif;font-size:1rem;font-weight:700;box-shadow:0 2px 12px rgba(0,0,0,0.3);';
+      banner.innerHTML = '\u2705 You\'re all set! Welcome to Patriot Wash N Fold. Check your phone \u2014 a confirmation text is on its way. <button onclick="this.parentNode.remove()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;font-weight:700;padding:4px 12px;border-radius:20px;margin-left:12px;cursor:pointer;font-size:0.9rem;">Dismiss</button>';
+      document.body.prepend(banner);
+      setTimeout(() => { if (banner.parentNode) banner.remove(); }, 10000);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  </script>
 </body>
 </html>
