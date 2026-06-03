@@ -339,40 +339,43 @@ function initCheckoutForm() {
     submitBtn.textContent = 'Processing...';
 
     try {
-      // POST to GHL webhook
-      const response = await fetch(CONFIG.GHL_WEBHOOK_URL, {
+      // POST to Cloudflare Worker — handles GHL capture + Stripe session creation
+      // Worker applies fixed 8.25% Texas tax to everyone regardless of billing address
+      const workerPayload = {
+        firstName:     data.firstName,
+        lastName:      data.lastName,
+        email:         data.email,
+        phone:         data.phone,
+        parentEmail:   data.parentEmail,
+        selectedPlan:  window._selectedPlanKey || 'blue',
+        detergentPref: data.detergentPref,
+      };
+
+      const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(workerPayload),
       });
 
-      if (!response.ok && response.status !== 200) {
-        throw new Error(`Webhook returned status ${response.status}`);
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error ${response.status}`);
       }
 
-      // Success — redirect to Stripe with student email appended
-      // client_reference_id passes through to checkout.session.completed webhook
-      // so GHL can match the existing contact by student email
-      const stripeLink = window._selectedStripeLink || CONFIG.STRIPE_LINKS.blue;
-      const studentEmail = data.email || '';
-      const stripeUrl = new URL(stripeLink);
-      if (studentEmail) {
-        stripeUrl.searchParams.set('client_reference_id', studentEmail);
-        stripeUrl.searchParams.set('prefilled_email', studentEmail);
-      }
-      window.location.href = stripeUrl.toString();
+      const result = await response.json();
+      if (!result.url) throw new Error('No checkout URL returned');
+
+      // Redirect to Stripe Checkout Session (with fixed 8.25% tax applied)
+      window.location.href = result.url;
 
     } catch (err) {
-      console.error('GHL webhook error:', err);
-      // Even if webhook fails, redirect to Stripe with email params
-      const stripeLink = window._selectedStripeLink || CONFIG.STRIPE_LINKS.blue;
-      const fallbackEmail = form.querySelector('#field-email')?.value.trim() || '';
-      const fallbackUrl = new URL(stripeLink);
-      if (fallbackEmail) {
-        fallbackUrl.searchParams.set('client_reference_id', fallbackEmail);
-        fallbackUrl.searchParams.set('prefilled_email', fallbackEmail);
+      console.error('Checkout error:', err);
+      if (errorEl) {
+        errorEl.textContent = 'Something went wrong. Please try again or call us at 855-772-0700.';
+        errorEl.classList.add('visible');
       }
-      window.location.href = fallbackUrl.toString();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Continue to Secure Payment →';
     }
   });
 }
