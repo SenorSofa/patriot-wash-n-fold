@@ -275,17 +275,48 @@ function initPlanWizard() {
    QUICK PLAN SUMMARY — Scroll to wizard and auto-select plan
    ------------------------------------------------------- */
 function scrollToWizardPlan(frequency) {
-  // Scroll to the wizard first
+  // Map frequency directly to plan key for Blue Plan (single step)
+  if (frequency === 'once') {
+    // Blue plan — go straight to checkout, no wizard needed
+    window._selectedPlanKey   = 'blue';
+    window._selectedPlanName  = CONFIG.PLAN_NAMES['blue'];
+    window._selectedStripeLink = CONFIG.STRIPE_LINKS['blue'];
+    const formPlanDisplay = document.getElementById('checkout-plan-name');
+    if (formPlanDisplay) formPlanDisplay.textContent = CONFIG.PLAN_NAMES['blue'];
+    const weeklyNote = document.getElementById('weekly-billing-note');
+    if (weeklyNote) weeklyNote.style.display = 'none';
+    // Hide wizard steps
+    ['wizard-step-1','wizard-step-2','wizard-step-3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+    const checkoutSection = document.getElementById('checkout-form');
+    if (checkoutSection) checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  // For Red/White plans: scroll to wizard, then trigger the frequency button
   const wizard = document.getElementById('plan-wizard');
   if (wizard) {
     wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // After scroll, simulate clicking the matching frequency button
+  // Reset wizard to step 1 first, then click the right option
   setTimeout(() => {
-    const btn = document.querySelector(`[data-frequency="${frequency}"]`);
-    if (btn) btn.click();
-  }, 500);
+    // Reset step visibility
+    const s1 = document.getElementById('wizard-step-1');
+    const s2 = document.getElementById('wizard-step-2');
+    const s3 = document.getElementById('wizard-step-3');
+    if (s2) s2.classList.add('hidden');
+    if (s3) s3.classList.add('hidden');
+    if (s1) s1.classList.remove('hidden');
+
+    // Find and click the correct frequency button
+    const btn = document.querySelector('[data-frequency="' + frequency + '"]');
+    if (btn) {
+      btn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    }
+  }, 400);
 }
 
 /* -------------------------------------------------------
