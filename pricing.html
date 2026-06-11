@@ -198,7 +198,7 @@
         <div style="display: flex; flex-direction: column; gap: 14px;">
 
           <!-- Red Plan -->
-          <div style="background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); border-radius: var(--radius-md); padding: 18px 20px;">
+          <div onclick="scrollToWizardPlan('weekly')" style="background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); border-radius: var(--radius-md); padding: 18px 20px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(192,57,43,0.6)';this.style.boxShadow='0 0 0 2px rgba(192,57,43,0.25)'" onmouseout="this.style.borderColor='rgba(192,57,43,0.25)';this.style.boxShadow='none'">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 1.4rem;">🔴</span>
@@ -220,7 +220,7 @@
           </div>
 
           <!-- White Plan -->
-          <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); padding: 18px 20px;">
+          <div onclick="scrollToWizardPlan('biweekly')" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); padding: 18px 20px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.4)';this.style.boxShadow='0 0 0 2px rgba(255,255,255,0.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.boxShadow='none'">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 1.4rem;">⚪</span>
@@ -242,7 +242,7 @@
           </div>
 
           <!-- Blue Plan -->
-          <div style="background: rgba(52,152,219,0.08); border: 1px solid rgba(52,152,219,0.2); border-radius: var(--radius-md); padding: 18px 20px;">
+          <div onclick="scrollToWizardPlan('once')" style="background: rgba(52,152,219,0.08); border: 1px solid rgba(52,152,219,0.2); border-radius: var(--radius-md); padding: 18px 20px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(52,152,219,0.5)';this.style.boxShadow='0 0 0 2px rgba(52,152,219,0.2)'" onmouseout="this.style.borderColor='rgba(52,152,219,0.2)';this.style.boxShadow='none'">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-size: 1.4rem;">🔵</span>
               <div>

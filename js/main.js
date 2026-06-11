@@ -144,9 +144,9 @@ function initPlanWizard() {
       selectedFrequency = btn.dataset.frequency;
 
       if (selectedFrequency === 'once') {
-        // Blue plan — skip to step 3 directly
+        // Blue plan — skip straight to checkout
         selectedPlanKey = 'blue';
-        showStep3('blue');
+        goToCheckout('blue');
         return;
       }
 
@@ -165,7 +165,7 @@ function initPlanWizard() {
     });
   });
 
-  // Step 2: Payment method selection
+  // Step 2: Payment method selection — skip Step 3, go straight to checkout
   document.querySelectorAll('[data-payment]').forEach(btn => {
     btn.addEventListener('click', () => {
       selectedPayment = btn.dataset.payment;
@@ -176,14 +176,8 @@ function initPlanWizard() {
         selectedPlanKey = selectedPayment === 'upfront' ? 'white_upfront' : 'white_biweekly';
       }
 
-      dot2.classList.remove('active');
-      dot2.classList.add('done');
-      dot2.innerHTML = '✓';
-      line2.classList.add('done');
-      dot3.classList.add('active');
-
-      step2.classList.add('hidden');
-      showStep3(selectedPlanKey);
+      // Skip the "Great Choice" confirmation — go straight to checkout
+      goToCheckout(selectedPlanKey);
     });
   });
 
@@ -219,45 +213,40 @@ function initPlanWizard() {
     });
   });
 
-  function showStep3(planKey) {
+  function goToCheckout(planKey) {
     const planName = CONFIG.PLAN_NAMES[planKey];
     const stripeLink = CONFIG.STRIPE_LINKS[planKey];
 
-    // Update step 3 display
-    const planDisplay = document.getElementById('wizard-plan-display');
-    const proceedBtn  = document.getElementById('wizard-proceed-btn');
+    // Store selected plan for checkout form
+    window._selectedPlanKey   = planKey;
+    window._selectedPlanName  = planName;
+    window._selectedStripeLink = stripeLink;
 
-    if (planDisplay) planDisplay.textContent = planName;
-    if (proceedBtn) {
-      proceedBtn.href = '#checkout-form';
-      proceedBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Store selected plan for checkout form
-        window._selectedPlanKey  = planKey;
-        window._selectedPlanName = planName;
-        window._selectedStripeLink = stripeLink;
-
-        // Show/hide weekly billing note
-        const weeklyNote = document.getElementById('weekly-billing-note');
-        if (weeklyNote) {
-          weeklyNote.style.display = (planKey === 'red_weekly' || planKey === 'white_biweekly') ? 'block' : 'none';
-        }
-
-        // Update checkout form display
-        const formPlanDisplay = document.getElementById('checkout-plan-name');
-        if (formPlanDisplay) formPlanDisplay.textContent = planName;
-
-        // Smooth scroll to checkout form
-        const checkoutSection = document.getElementById('checkout-form');
-        if (checkoutSection) {
-          checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+    // Show/hide weekly billing note
+    const weeklyNote = document.getElementById('weekly-billing-note');
+    if (weeklyNote) {
+      weeklyNote.style.display = (planKey === 'red_weekly' || planKey === 'white_biweekly') ? 'block' : 'none';
     }
 
+    // Update checkout form plan display
+    const formPlanDisplay = document.getElementById('checkout-plan-name');
+    if (formPlanDisplay) formPlanDisplay.textContent = planName;
+
+    // Hide wizard steps, show nothing (skip step 3)
     step1.classList.add('hidden');
     step2.classList.add('hidden');
-    step3.classList.remove('hidden');
+    step3.classList.add('hidden');
+
+    // Smooth scroll directly to checkout form
+    const checkoutSection = document.getElementById('checkout-form');
+    if (checkoutSection) {
+      checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function showStep3(planKey) {
+    // Kept for reference but no longer called — goToCheckout() used instead
+    goToCheckout(planKey);
   }
 
   function populatePaymentStep(frequency) {
@@ -280,6 +269,23 @@ function initPlanWizard() {
     if (splitTotal)    splitTotal.textContent = isWeekly ? 'Total: $640/semester' : 'Total: $320/semester';
     if (splitLabel)    splitLabel.textContent = isWeekly ? 'Weekly Payments' : 'Bi-Weekly Payments';
   }
+}
+
+/* -------------------------------------------------------
+   QUICK PLAN SUMMARY — Scroll to wizard and auto-select plan
+   ------------------------------------------------------- */
+function scrollToWizardPlan(frequency) {
+  // Scroll to the wizard first
+  const wizard = document.getElementById('plan-wizard');
+  if (wizard) {
+    wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // After scroll, simulate clicking the matching frequency button
+  setTimeout(() => {
+    const btn = document.querySelector(`[data-frequency="${frequency}"]`);
+    if (btn) btn.click();
+  }, 500);
 }
 
 /* -------------------------------------------------------
