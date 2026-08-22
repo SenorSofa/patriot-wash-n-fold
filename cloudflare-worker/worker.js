@@ -155,30 +155,72 @@ async function handleStripeWebhook(request, env) {
 
 async function handleGetStudents(request, env) {
   try {
-    // Use GHL Search Contacts API — filter by pwnf-subscriber tag
-    const ghlRes = await fetch(
-      `https://services.leadconnectorhq.com/contacts/?locationId=${GHL_LOCATION}&limit=100`,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${env.GHL_API_KEY}`,
-          'Content-Type': 'application/json',
-          'Version': '2021-07-28',
-        }
-      }
-    );
+    // Use GHL Search Contacts API with a SERVER-SIDE tag filter + pagination.
+    // The old approach fetched only the first 100 contacts in the location and
+    // filtered by tag client-side, so any subscriber past contact #100 silently
+    // disappeared. This filters on the server and pages through every match.
+    const collected = [];
+    let searchAfter = null;
+    let page = 0;
+    const MAX_PAGES = 20; // safety cap: 20 * 100 = 2000 subscribers max
 
-    if (!ghlRes.ok) {
-      const errText = await ghlRes.text();
-      console.error('GHL API error:', ghlRes.status, errText);
-      return corsResponse({ error: 'Failed to fetch students' }, 500);
+    while (page < MAX_PAGES) {
+      const payload = {
+        locationId: GHL_LOCATION,
+        pageLimit: 100,
+        filters: [
+          {
+            field: 'tags',
+            operator: 'contains',
+            value: 'pwnf-subscriber',
+          },
+        ],
+      };
+      if (searchAfter) payload.searchAfter = searchAfter;
+
+      const ghlRes = await fetch(
+        'https://services.leadconnectorhq.com/contacts/search',
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.GHL_API_KEY}`,
+            'Content-Type': 'application/json',
+            'Version': '2021-07-28',
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!ghlRes.ok) {
+        const errText = await ghlRes.text();
+        console.error('GHL API error:', ghlRes.status, errText);
+        return corsResponse({ error: 'Failed to fetch students' }, 500);
+      }
+
+      const data     = await ghlRes.json();
+      const contacts = data.contacts || [];
+      if (contacts.length === 0) break;
+
+      for (const c of contacts) collected.push(c);
+
+      // Stop once we've gathered everything the search reports as matching.
+      const total = typeof data.total === 'number' ? data.total : null;
+      if (total !== null && collected.length >= total) break;
+
+      // GHL cursor pagination: searchAfter comes off the last contact.
+      const last = contacts[contacts.length - 1];
+      const nextCursor = last && last.searchAfter;
+      if (!nextCursor || contacts.length < 100) break;
+      searchAfter = nextCursor;
+      page++;
     }
 
-    const data     = await ghlRes.json();
-    const contacts = data.contacts || [];
-
-    const students = contacts
+    // Defensive: keep the client-side tag check too, in case the API returns
+    // near-matches. Dedupe by id.
+    const seen = new Set();
+    const students = collected
       .filter(c => Array.isArray(c.tags) && c.tags.includes('pwnf-subscriber'))
+      .filter(c => { if (seen.has(c.id)) return false; seen.add(c.id); return true; })
       .map(c => ({
         id:        c.id,
         firstName: c.firstName || '',
