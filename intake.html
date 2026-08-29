@@ -28,6 +28,8 @@
       --muted: #6b7280;
       --green: #16a34a;
       --green-light: #dcfce7;
+      --blue:  #1d6fb8;
+      --blue-light: #dbeafe;
     }
 
     body {
@@ -170,6 +172,49 @@
       border-radius: 20px;
     }
 
+    /* ── MODE TABS ── */
+    .mode-tabs {
+      background: var(--navy);
+      padding: 0 16px 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .mode-tab:active { transform: scale(0.97); }
+
+    .mode-tab.active-regular {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    .mode-tab.active-omni-a {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
+
+    .mode-tab.active-omni-b {
+      background: #7c3aed;
+      border-color: #7c3aed;
+      color: var(--white);
+    }
+
     .intake-body {
       padding: 20px 16px 120px;
       max-width: 600px;
@@ -185,6 +230,14 @@
       font-size: 0.88rem;
       color: var(--muted);
       line-height: 1.6;
+    }
+
+    .intake-instructions.omni-a {
+      border-left-color: var(--blue);
+    }
+
+    .intake-instructions.omni-b {
+      border-left-color: #7c3aed;
     }
 
     .intake-instructions strong {
@@ -240,6 +293,17 @@
       border-color: var(--green);
     }
 
+    /* OMNI mode: selected tiles use blue */
+    .omni-mode .student-tile.selected {
+      background: var(--blue-light);
+      border-color: var(--blue);
+    }
+
+    .omni-mode.omni-b-mode .student-tile.selected {
+      background: #ede9fe;
+      border-color: #7c3aed;
+    }
+
     .student-tile.selected .student-check {
       opacity: 1;
       transform: scale(1);
@@ -259,6 +323,14 @@
       opacity: 0;
       transform: scale(0.5);
       transition: all 0.2s ease;
+    }
+
+    .omni-mode .student-check {
+      background: var(--blue);
+    }
+
+    .omni-mode.omni-b-mode .student-check {
+      background: #7c3aed;
     }
 
     .student-check svg {
@@ -289,6 +361,14 @@
       background: var(--green);
     }
 
+    .omni-mode .student-tile.selected .student-avatar {
+      background: var(--blue);
+    }
+
+    .omni-mode.omni-b-mode .student-tile.selected .student-avatar {
+      background: #7c3aed;
+    }
+
     .student-name {
       font-size: 0.9rem;
       font-weight: 700;
@@ -298,6 +378,14 @@
 
     .student-tile.selected .student-name {
       color: var(--green);
+    }
+
+    .omni-mode .student-tile.selected .student-name {
+      color: var(--blue);
+    }
+
+    .omni-mode.omni-b-mode .student-tile.selected .student-name {
+      color: #7c3aed;
     }
 
     .empty-state {
@@ -352,13 +440,16 @@
       transition: background 0.2s, transform 0.1s, opacity 0.2s;
     }
 
+    .submit-btn.omni-a-btn { background: var(--blue); }
+    .submit-btn.omni-b-btn { background: #7c3aed; }
+
     .submit-btn:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
 
     .submit-btn:not(:disabled):active { transform: scale(0.97); }
-    .submit-btn:not(:disabled):hover  { background: #8b0a2b; }
+    .submit-btn:not(:disabled):hover  { filter: brightness(0.9); }
 
     /* ── SUCCESS SCREEN ── */
     #success-screen {
@@ -478,22 +569,35 @@
   <header class="intake-header">
     <img src="assets/logo.webp" alt="Logo" />
     <div class="intake-header-text">
-      <div class="intake-header-title">Pickup Intake</div>
-      <div class="intake-header-sub">Tap students who dropped off today</div>
+      <div class="intake-header-title" id="header-title">Pickup Intake</div>
+      <div class="intake-header-sub" id="header-sub">Tap students who dropped off today</div>
     </div>
     <div class="intake-date" id="intake-date"></div>
   </header>
 
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active-regular" id="tab-regular" onclick="switchMode('regular')">
+      📦 Regular<br>Pickup
+    </button>
+    <button class="mode-tab" id="tab-omni-a" onclick="switchMode('omni-a')">
+      🏨 OMNI<br>Group A
+    </button>
+    <button class="mode-tab" id="tab-omni-b" onclick="switchMode('omni-b')">
+      🏨 OMNI<br>Group B
+    </button>
+  </div>
+
   <div class="intake-body">
-    <div class="intake-instructions">
-      <strong>How to use:</strong>
-      Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they'll automatically receive a confirmation text.
+    <div class="intake-instructions" id="intake-instructions">
+      <strong>Regular Subscribers — Drop-Off Intake</strong>
+      Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they'll automatically receive a pickup reminder text Thursday at 9:30am.
     </div>
 
     <div id="student-container">
       <div class="loading-state">
         <div class="loading-spinner"></div>
-        Loading active subscribers…
+        Loading subscribers…
       </div>
     </div>
   </div>
@@ -513,8 +617,8 @@
   <div class="success-icon">
     <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
   </div>
-  <div class="success-title">Texts Sent! 🎉</div>
-  <div class="success-sub">All selected students have been notified that their laundry was received.</div>
+  <div class="success-title" id="success-title">Texts Sent! 🎉</div>
+  <div class="success-sub" id="success-sub">All selected students have been notified.</div>
   <div class="success-names" id="success-names-list"></div>
   <button class="reset-btn" onclick="resetIntake()">Start New Pickup</button>
 </div>
@@ -523,6 +627,7 @@
   const CORRECT_PIN = 'JOE';
   let allStudents   = [];
   let selectedIds   = new Set();
+  let currentMode   = 'regular'; // 'regular' | 'omni-a' | 'omni-b'
 
   // ── PIN CHECK ──
   function checkPin() {
@@ -531,7 +636,7 @@
       document.getElementById('pin-screen').style.display  = 'none';
       document.getElementById('intake-screen').style.display = 'block';
       setDate();
-      loadStudents();
+      switchMode('regular');
     } else {
       const errEl = document.getElementById('pin-error');
       errEl.style.display = 'block';
@@ -540,7 +645,6 @@
     }
   }
 
-  // Allow Enter key on PIN input
   document.getElementById('pin-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkPin();
   });
@@ -554,20 +658,77 @@
       `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()}`;
   }
 
+  // ── SWITCH MODE ──
+  function switchMode(mode) {
+    currentMode = mode;
+    selectedIds.clear();
+
+    // Update tabs
+    document.getElementById('tab-regular').className = 'mode-tab' + (mode === 'regular' ? ' active-regular' : '');
+    document.getElementById('tab-omni-a').className  = 'mode-tab' + (mode === 'omni-a'  ? ' active-omni-a'  : '');
+    document.getElementById('tab-omni-b').className  = 'mode-tab' + (mode === 'omni-b'  ? ' active-omni-b'  : '');
+
+    // Update submit button style
+    const btn = document.getElementById('submit-btn');
+    btn.className = 'submit-btn' + (mode === 'omni-a' ? ' omni-a-btn' : mode === 'omni-b' ? ' omni-b-btn' : '');
+
+    // Update instructions + header
+    const instructions = document.getElementById('intake-instructions');
+    const headerSub    = document.getElementById('header-sub');
+    const headerTitle  = document.getElementById('header-title');
+
+    if (mode === 'regular') {
+      instructions.className = 'intake-instructions';
+      instructions.innerHTML = '<strong>Regular Subscribers — Drop-Off Intake</strong>Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they\'ll automatically receive a pickup reminder text Thursday at 9:30am.';
+      headerTitle.textContent = 'Pickup Intake';
+      headerSub.textContent   = 'Tap students who dropped off today';
+      document.getElementById('student-container').classList.remove('omni-mode', 'omni-b-mode');
+    } else if (mode === 'omni-a') {
+      instructions.className = 'intake-instructions omni-a';
+      instructions.innerHTML = '<strong>OMNI Group A — Laundry Delivered</strong>Joe has arrived to drop off clean laundry in the hotel lobby. Tap all Group A students, then hit <strong>Send</strong> — they\'ll immediately receive a text that their laundry is in the lobby.';
+      headerTitle.textContent = 'OMNI Group A';
+      headerSub.textContent   = 'Tap to send delivery notifications';
+      document.getElementById('student-container').classList.add('omni-mode');
+      document.getElementById('student-container').classList.remove('omni-b-mode');
+    } else if (mode === 'omni-b') {
+      instructions.className = 'intake-instructions omni-b';
+      instructions.innerHTML = '<strong>OMNI Group B — Laundry Delivered</strong>Joe has arrived to drop off clean laundry in the hotel lobby. Tap all Group B students, then hit <strong>Send</strong> — they\'ll immediately receive a text that their laundry is in the lobby.';
+      headerTitle.textContent = 'OMNI Group B';
+      headerSub.textContent   = 'Tap to send delivery notifications';
+      document.getElementById('student-container').classList.add('omni-mode', 'omni-b-mode');
+    }
+
+    updateCount();
+    loadStudents();
+  }
+
   // ── LOAD STUDENTS ──
   async function loadStudents() {
     const container = document.getElementById('student-container');
+    container.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div>Loading…</div>`;
+
     try {
-      const res = await fetch('/api/students');
+      let url;
+      if (currentMode === 'regular') {
+        url = '/api/students';
+      } else if (currentMode === 'omni-a') {
+        url = '/api/omni-students?group=a';
+      } else {
+        url = '/api/omni-students?group=b';
+      }
+
+      const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       allStudents = data.students || [];
 
       if (allStudents.length === 0) {
+        const label = currentMode === 'regular' ? 'pwnf-subscriber' :
+                      currentMode === 'omni-a'  ? 'omni-group-a' : 'omni-group-b';
         container.innerHTML = `
           <div class="empty-state">
-            <h3>No active subscribers</h3>
-            <p>No students currently have the pwnf-subscriber tag in GHL.</p>
+            <h3>No students found</h3>
+            <p>No contacts with the <strong>${label}</strong> tag in GHL.</p>
           </div>`;
         return;
       }
@@ -623,6 +784,7 @@
     updateCount();
   }
 
+  // ── UPDATE COUNT ──
   function updateCount() {
     const count = selectedIds.size;
     document.getElementById('selected-count').textContent = count;
@@ -638,18 +800,35 @@
     const selected = allStudents.filter(s => selectedIds.has(s.id));
 
     try {
-      const res = await fetch('/api/intake-submit', {
+      let endpoint, bodyPayload;
+
+      if (currentMode === 'regular') {
+        endpoint     = '/api/intake-submit';
+        bodyPayload  = { students: selected };
+      } else {
+        const group  = currentMode === 'omni-a' ? 'a' : 'b';
+        endpoint     = '/api/omni-submit';
+        bodyPayload  = { students: selected, group };
+      }
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ students: selected })
+        body: JSON.stringify(bodyPayload)
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      // Show success screen
+      // Success screen
       document.getElementById('intake-screen').style.display = 'none';
       const successScreen = document.getElementById('success-screen');
       successScreen.style.display = 'flex';
+
+      const isOmni = currentMode !== 'regular';
+      document.getElementById('success-title').textContent = isOmni ? 'Delivery Confirmed! 🎉' : 'Texts Sent! 🎉';
+      document.getElementById('success-sub').textContent = isOmni
+        ? 'Students have been notified their laundry is in the hotel lobby.'
+        : 'Selected students will receive a pickup reminder Thursday at 9:30am.';
 
       const namesList = document.getElementById('success-names-list');
       namesList.innerHTML = `<div class="success-names-title">Texts sent to:</div>` +
@@ -668,7 +847,7 @@
     document.getElementById('success-screen').style.display = 'none';
     document.getElementById('intake-screen').style.display  = 'block';
     updateCount();
-    loadStudents(); // refresh the list
+    switchMode(currentMode); // refresh current mode
   }
 </script>
 </body>
