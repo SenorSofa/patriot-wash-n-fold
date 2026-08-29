@@ -2,18 +2,21 @@
  * PATRIOT WASH N FOLD — Cloudflare Worker
  *
  * Routes:
- *   POST /api/checkout       — Creates Stripe Checkout Session with fixed 8.25% TX tax
- *   POST /api/webhook        — Receives Stripe checkout.session.completed, fires GHL post-payment
- *   GET  /api/students       — Returns active subscribers (pwnf-subscriber tag) from GHL
- *   POST /api/intake-submit  — Fires GHL webhook for each student Joe selected at pickup
+ *   POST /api/checkout          — Creates Stripe Checkout Session with fixed 8.25% TX tax
+ *   POST /api/webhook           — Receives Stripe checkout.session.completed, fires GHL post-payment
+ *   GET  /api/students          — Returns active regular subscribers (pwnf-subscriber tag) from GHL
+ *   POST /api/intake-submit     — Fires GHL webhook for each regular subscriber Joe selected (schedules Thursday text)
+ *   GET  /api/omni-students     — Returns OMNI students by group (?group=a or ?group=b)
+ *   POST /api/omni-submit       — Fires GHL OMNI delivery webhook instantly for selected OMNI students
  *
  * Required Cloudflare secrets:
- *   STRIPE_SECRET_KEY        rk_live_... (restricted Stripe key)
- *   STRIPE_WEBHOOK_SECRET    whsec_...
- *   GHL_SIGNUP_WEBHOOK       GHL inbound webhook — contact capture
- *   GHL_PAYMENT_WEBHOOK      GHL inbound webhook — post-payment subscriber tag
- *   GHL_INTAKE_WEBHOOK       GHL inbound webhook — laundry received notification
- *   GHL_API_KEY              pit-... (GHL private integration token)
+ *   STRIPE_SECRET_KEY           rk_live_... (restricted Stripe key)
+ *   STRIPE_WEBHOOK_SECRET       whsec_...
+ *   GHL_SIGNUP_WEBHOOK          GHL inbound webhook — contact capture
+ *   GHL_PAYMENT_WEBHOOK         GHL inbound webhook — post-payment subscriber tag
+ *   GHL_INTAKE_WEBHOOK          GHL inbound webhook — laundry received (regular subscribers → Thursday text)
+ *   GHL_OMNI_DELIVERY_WEBHOOK   GHL inbound webhook — OMNI laundry delivered (instant text)
+ *   GHL_API_KEY                 pit-... (GHL private integration token)
  */
 
 const PRICE_IDS = {
@@ -49,6 +52,12 @@ export default {
     }
     if (url.pathname === '/api/intake-submit' && request.method === 'POST') {
       return handleIntakeSubmit(request, env);
+    }
+    if (url.pathname === '/api/omni-students' && request.method === 'GET') {
+      return handleGetOmniStudents(request, env);
+    }
+    if (url.pathname === '/api/omni-submit' && request.method === 'POST') {
+      return handleOmniSubmit(request, env);
     }
 
     return new Response('Not found', { status: 404 });
@@ -151,94 +160,112 @@ async function handleStripeWebhook(request, env) {
   return new Response('ok', { status: 200 });
 }
 
-// ─── GET STUDENTS (for Joe's intake page) ────────────────────────────────────
+// ─── GET STUDENTS — regular subscribers (pwnf-subscriber tag) ────────────────
 
 async function handleGetStudents(request, env) {
   try {
-    // Use GHL Search Contacts API with a SERVER-SIDE tag filter + pagination.
-    // The old approach fetched only the first 100 contacts in the location and
-    // filtered by tag client-side, so any subscriber past contact #100 silently
-    // disappeared. This filters on the server and pages through every match.
-    const collected = [];
-    let searchAfter = null;
-    let page = 0;
-    const MAX_PAGES = 20; // safety cap: 20 * 100 = 2000 subscribers max
-
-    while (page < MAX_PAGES) {
-      const payload = {
-        locationId: GHL_LOCATION,
-        pageLimit: 100,
-        filters: [
-          {
-            field: 'tags',
-            operator: 'contains',
-            value: 'pwnf-subscriber',
-          },
-        ],
-      };
-      if (searchAfter) payload.searchAfter = searchAfter;
-
-      const ghlRes = await fetch(
-        'https://services.leadconnectorhq.com/contacts/search',
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${env.GHL_API_KEY}`,
-            'Content-Type': 'application/json',
-            'Version': '2021-07-28',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!ghlRes.ok) {
-        const errText = await ghlRes.text();
-        console.error('GHL API error:', ghlRes.status, errText);
-        return corsResponse({ error: 'Failed to fetch students' }, 500);
-      }
-
-      const data     = await ghlRes.json();
-      const contacts = data.contacts || [];
-      if (contacts.length === 0) break;
-
-      for (const c of contacts) collected.push(c);
-
-      // Stop once we've gathered everything the search reports as matching.
-      const total = typeof data.total === 'number' ? data.total : null;
-      if (total !== null && collected.length >= total) break;
-
-      // GHL cursor pagination: searchAfter comes off the last contact.
-      const last = contacts[contacts.length - 1];
-      const nextCursor = last && last.searchAfter;
-      if (!nextCursor || contacts.length < 100) break;
-      searchAfter = nextCursor;
-      page++;
-    }
-
-    // Defensive: keep the client-side tag check too, in case the API returns
-    // near-matches. Dedupe by id.
-    const seen = new Set();
-    const students = collected
-      .filter(c => Array.isArray(c.tags) && c.tags.includes('pwnf-subscriber'))
-      .filter(c => { if (seen.has(c.id)) return false; seen.add(c.id); return true; })
-      .map(c => ({
-        id:        c.id,
-        firstName: c.firstName || '',
-        lastName:  c.lastName  || '',
-        phone:     c.phone     || '',
-        email:     c.email     || '',
-      }))
-      .sort((a, b) => a.lastName.localeCompare(b.lastName));
-
+    const students = await fetchContactsByTag(env, 'pwnf-subscriber');
     return corsResponse({ students }, 200);
-
   } catch (err) {
     console.error('Students fetch error:', err.message);
     return corsResponse({ error: 'Server error' }, 500);
   }
 }
 
-// ─── INTAKE SUBMIT (Joe confirms pickups) ────────────────────────────────────
+// ─── GET OMNI STUDENTS — by group tag (?group=a or ?group=b) ─────────────────
+
+async function handleGetOmniStudents(request, env) {
+  const url   = new URL(request.url);
+  const group = (url.searchParams.get('group') || '').toLowerCase();
+
+  if (group !== 'a' && group !== 'b') {
+    return corsResponse({ error: 'group param must be "a" or "b"' }, 400);
+  }
+
+  const tag = group === 'a' ? 'omni-group-a' : 'omni-group-b';
+
+  try {
+    const students = await fetchContactsByTag(env, tag);
+    return corsResponse({ students, group }, 200);
+  } catch (err) {
+    console.error('OMNI students fetch error:', err.message);
+    return corsResponse({ error: 'Server error' }, 500);
+  }
+}
+
+// ─── SHARED: fetch all contacts with a given tag (paginated) ─────────────────
+
+async function fetchContactsByTag(env, tag) {
+  const collected = [];
+  let searchAfter = null;
+  let page = 0;
+  const MAX_PAGES = 20; // safety cap: 20 * 100 = 2000 contacts max
+
+  while (page < MAX_PAGES) {
+    const payload = {
+      locationId: GHL_LOCATION,
+      pageLimit: 100,
+      filters: [
+        {
+          field: 'tags',
+          operator: 'contains',
+          value: tag,
+        },
+      ],
+    };
+    if (searchAfter) payload.searchAfter = searchAfter;
+
+    const ghlRes = await fetch(
+      'https://services.leadconnectorhq.com/contacts/search',
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.GHL_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Version': '2021-07-28',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!ghlRes.ok) {
+      const errText = await ghlRes.text();
+      console.error('GHL API error:', ghlRes.status, errText);
+      throw new Error(`GHL API error ${ghlRes.status}`);
+    }
+
+    const data     = await ghlRes.json();
+    const contacts = data.contacts || [];
+    if (contacts.length === 0) break;
+
+    for (const c of contacts) collected.push(c);
+
+    const total = typeof data.total === 'number' ? data.total : null;
+    if (total !== null && collected.length >= total) break;
+
+    const last = contacts[contacts.length - 1];
+    const nextCursor = last && last.searchAfter;
+    if (!nextCursor || contacts.length < 100) break;
+    searchAfter = nextCursor;
+    page++;
+  }
+
+  // Defensive client-side tag check + dedup
+  const seen = new Set();
+  return collected
+    .filter(c => Array.isArray(c.tags) && c.tags.includes(tag))
+    .filter(c => { if (seen.has(c.id)) return false; seen.add(c.id); return true; })
+    .map(c => ({
+      id:        c.id,
+      firstName: c.firstName || '',
+      lastName:  c.lastName  || '',
+      phone:     c.phone     || '',
+      email:     c.email     || '',
+    }))
+    .sort((a, b) => a.lastName.localeCompare(b.lastName));
+}
+
+// ─── INTAKE SUBMIT — regular subscribers (fires GHL → schedules Thursday text) ──
 
 async function handleIntakeSubmit(request, env) {
   let body;
@@ -262,6 +289,46 @@ async function handleIntakeSubmit(request, env) {
           phone:      student.phone,
           email:      student.email,
           event:      'laundry_received',
+          timestamp:  new Date().toISOString(),
+        })
+      })
+    )
+  );
+
+  const succeeded = results.filter(r => r.status === 'fulfilled').length;
+  const failed    = results.filter(r => r.status === 'rejected').length;
+
+  return corsResponse({ success: true, sent: succeeded, failed }, 200);
+}
+
+// ─── OMNI SUBMIT — OMNI delivery confirmed (fires instant text) ───────────────
+
+async function handleOmniSubmit(request, env) {
+  let body;
+  try { body = await request.json(); }
+  catch { return corsResponse({ error: 'Invalid JSON' }, 400); }
+
+  const { students, group } = body;
+  if (!students || !Array.isArray(students) || students.length === 0) {
+    return corsResponse({ error: 'No students provided' }, 400);
+  }
+  if (group !== 'a' && group !== 'b') {
+    return corsResponse({ error: 'group must be "a" or "b"' }, 400);
+  }
+
+  const results = await Promise.allSettled(
+    students.map(student =>
+      fetch(env.GHL_OMNI_DELIVERY_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactId:  student.id,
+          firstName:  student.firstName,
+          lastName:   student.lastName,
+          phone:      student.phone,
+          email:      student.email,
+          event:      'omni_laundry_delivered',
+          group:      group,
           timestamp:  new Date().toISOString(),
         })
       })
