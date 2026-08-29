@@ -18,527 +18,188 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:  #051b38;
-      --red:   #a20d33;
-      --gold:  #f4c430;
-      --white: #ffffff;
-      --bg:    #f0f4f8;
-      --card:  #ffffff;
-      --text:  #1a1a2e;
-      --muted: #6b7280;
-      --green: #16a34a;
+      --navy:   #051b38;
+      --red:    #a20d33;
+      --gold:   #f4c430;
+      --white:  #ffffff;
+      --bg:     #f0f4f8;
+      --card:   #ffffff;
+      --text:   #1a1a2e;
+      --muted:  #6b7280;
+      --green:  #16a34a;
       --green-light: #dcfce7;
-      --blue:  #1d6fb8;
+      --blue:   #1d6fb8;
       --blue-light: #dbeafe;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* ── PIN SCREEN ── */
     #pin-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
-      background: var(--navy);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px; background: var(--navy);
     }
-
-    .pin-logo {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
-    }
-
-    .pin-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--white);
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .pin-subtitle {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.6);
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
+    .pin-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 20px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+    .pin-title { font-size: 1.5rem; font-weight: 800; color: var(--white); text-align: center; margin-bottom: 6px; }
+    .pin-subtitle { font-size: 0.9rem; color: rgba(255,255,255,0.6); text-align: center; margin-bottom: 32px; }
     .pin-input {
-      background: rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      color: var(--white);
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-align: center;
-      padding: 16px 24px;
-      width: 100%;
-      max-width: 280px;
-      outline: none;
-      transition: border-color 0.2s;
+      background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px;
+      color: var(--white); font-size: 1.4rem; font-weight: 700; letter-spacing: 0.3em; text-align: center;
+      padding: 16px 24px; width: 100%; max-width: 280px; outline: none; transition: border-color 0.2s;
     }
-
-    .pin-input:focus {
-      border-color: var(--gold);
-    }
-
-    .pin-input::placeholder {
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.1em;
-    }
-
+    .pin-input:focus { border-color: var(--gold); }
+    .pin-input::placeholder { color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
     .pin-btn {
-      margin-top: 16px;
-      background: var(--red);
-      color: var(--white);
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      padding: 16px 40px;
-      cursor: pointer;
-      width: 100%;
-      max-width: 280px;
-      transition: background 0.2s, transform 0.1s;
+      margin-top: 16px; background: var(--red); color: var(--white); border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; padding: 16px 40px; cursor: pointer; width: 100%; max-width: 280px; transition: background 0.2s, transform 0.1s;
     }
-
     .pin-btn:active { transform: scale(0.97); }
     .pin-btn:hover  { background: #8b0a2b; }
-
-    .pin-error {
-      margin-top: 12px;
-      color: #fca5a5;
-      font-size: 0.88rem;
-      text-align: center;
-      display: none;
-    }
+    .pin-error { margin-top: 12px; color: #fca5a5; font-size: 0.88rem; text-align: center; display: none; }
 
     /* ── INTAKE SCREEN ── */
-    #intake-screen {
-      display: none;
-      min-height: 100vh;
-    }
+    #intake-screen { display: none; min-height: 100vh; }
 
     .intake-header {
-      background: var(--navy);
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background: var(--navy); padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 10;
     }
-
-    .intake-header img {
-      width: 44px;
-      height: 44px;
-      object-fit: contain;
-    }
-
-    .intake-header-text {
-      flex: 1;
-    }
-
-    .intake-header-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.2;
-    }
-
-    .intake-header-sub {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.6);
-    }
-
-    .intake-date {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--gold);
-      background: rgba(244,196,48,0.12);
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
+    .intake-header img { width: 44px; height: 44px; object-fit: contain; }
+    .intake-header-text { flex: 1; }
+    .intake-header-title { font-size: 1rem; font-weight: 800; color: var(--white); line-height: 1.2; }
+    .intake-header-sub { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .intake-date { font-size: 0.75rem; font-weight: 700; color: var(--gold); background: rgba(244,196,48,0.12); padding: 4px 10px; border-radius: 20px; }
 
     /* ── MODE TABS ── */
-    .mode-tabs {
-      background: var(--navy);
-      padding: 0 16px 16px;
-      display: flex;
-      gap: 8px;
-    }
-
+    .mode-tabs { background: var(--navy); padding: 0 16px 16px; display: flex; gap: 8px; }
     .mode-tab {
-      flex: 1;
-      padding: 10px 8px;
-      border-radius: 10px;
-      border: 2px solid rgba(255,255,255,0.15);
-      background: transparent;
-      color: rgba(255,255,255,0.55);
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.18s ease;
-      text-align: center;
-      line-height: 1.3;
+      flex: 1; padding: 10px 8px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15);
+      background: transparent; color: rgba(255,255,255,0.55); font-size: 0.78rem; font-weight: 700;
+      cursor: pointer; transition: all 0.18s ease; text-align: center; line-height: 1.3;
     }
-
     .mode-tab:active { transform: scale(0.97); }
+    .mode-tab.active-regular { background: var(--red);    border-color: var(--red);    color: var(--white); }
+    .mode-tab.active-omni-a  { background: var(--blue);   border-color: var(--blue);   color: var(--white); }
+    .mode-tab.active-omni-b  { background: var(--purple); border-color: var(--purple); color: var(--white); }
 
-    .mode-tab.active-regular {
-      background: var(--red);
-      border-color: var(--red);
-      color: var(--white);
-    }
-
-    .mode-tab.active-omni-a {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: var(--white);
-    }
-
-    .mode-tab.active-omni-b {
-      background: #7c3aed;
-      border-color: #7c3aed;
-      color: var(--white);
-    }
-
-    .intake-body {
-      padding: 20px 16px 120px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .intake-body { padding: 20px 16px 120px; max-width: 600px; margin: 0 auto; }
 
     .intake-instructions {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 20px;
-      border-left: 4px solid var(--red);
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.6;
+      background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;
+      border-left: 4px solid var(--red); font-size: 0.88rem; color: var(--muted); line-height: 1.6;
     }
+    .intake-instructions.omni-a { border-left-color: var(--blue); }
+    .intake-instructions.omni-b { border-left-color: var(--purple); }
+    .intake-instructions strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 0.92rem; }
 
-    .intake-instructions.omni-a {
-      border-left-color: var(--blue);
+    /* ── OMNI SEND-ALL PANEL ── */
+    .omni-panel {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 20px; text-align: center; gap: 20px;
     }
-
-    .intake-instructions.omni-b {
-      border-left-color: #7c3aed;
+    .omni-count-badge {
+      font-size: 3.5rem; font-weight: 800; line-height: 1;
     }
-
-    .intake-instructions strong {
-      color: var(--text);
-      display: block;
-      margin-bottom: 4px;
-      font-size: 0.92rem;
+    .omni-count-badge.blue   { color: var(--blue); }
+    .omni-count-badge.purple { color: var(--purple); }
+    .omni-count-label { font-size: 1rem; color: var(--muted); font-weight: 600; margin-top: -8px; }
+    .omni-send-btn {
+      width: 100%; max-width: 340px; padding: 20px 32px; border: none; border-radius: 16px;
+      font-size: 1.15rem; font-weight: 800; color: var(--white); cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease; letter-spacing: 0.01em;
     }
+    .omni-send-btn.blue   { background: var(--blue); }
+    .omni-send-btn.purple { background: var(--purple); }
+    .omni-send-btn:active  { transform: scale(0.97); }
+    .omni-send-btn:hover   { filter: brightness(0.9); }
+    .omni-send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .omni-send-sub { font-size: 0.82rem; color: var(--muted); max-width: 280px; line-height: 1.5; }
 
-    .loading-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--muted);
-    }
-
+    /* ── REGULAR SUBSCRIBER GRID ── */
+    .loading-state { text-align: center; padding: 60px 20px; color: var(--muted); }
     .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #e5e7eb;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+      width: 40px; height: 40px; border: 3px solid #e5e7eb; border-top-color: var(--red);
+      border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .student-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+    /* Select All button (regular mode only) */
+    .select-all-bar {
+      display: flex; justify-content: flex-end; margin-bottom: 12px;
+    }
+    .select-all-btn {
+      font-size: 0.8rem; font-weight: 700; color: var(--red); background: none; border: none;
+      cursor: pointer; padding: 4px 0; text-decoration: underline; text-underline-offset: 2px;
     }
 
+    .student-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .student-tile {
-      background: var(--card);
-      border: 2px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px 14px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      text-align: center;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      position: relative;
+      background: var(--card); border: 2px solid #e5e7eb; border-radius: 14px; padding: 16px 14px;
+      cursor: pointer; transition: all 0.15s ease; text-align: center; user-select: none;
+      -webkit-tap-highlight-color: transparent; position: relative;
     }
-
-    .student-tile:active {
-      transform: scale(0.96);
-    }
-
-    .student-tile.selected {
-      background: var(--green-light);
-      border-color: var(--green);
-    }
-
-    /* OMNI mode: selected tiles use blue */
-    .omni-mode .student-tile.selected {
-      background: var(--blue-light);
-      border-color: var(--blue);
-    }
-
-    .omni-mode.omni-b-mode .student-tile.selected {
-      background: #ede9fe;
-      border-color: #7c3aed;
-    }
-
-    .student-tile.selected .student-check {
-      opacity: 1;
-      transform: scale(1);
-    }
-
+    .student-tile:active { transform: scale(0.96); }
+    .student-tile.selected { background: var(--green-light); border-color: var(--green); }
+    .student-tile.selected .student-check { opacity: 1; transform: scale(1); }
     .student-check {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 22px;
-      height: 22px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: scale(0.5);
-      transition: all 0.2s ease;
+      position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; background: var(--green);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.5); transition: all 0.2s ease;
     }
-
-    .omni-mode .student-check {
-      background: var(--blue);
-    }
-
-    .omni-mode.omni-b-mode .student-check {
-      background: #7c3aed;
-    }
-
-    .student-check svg {
-      width: 12px;
-      height: 12px;
-      fill: none;
-      stroke: white;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
+    .student-check svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
     .student-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--navy);
-      color: var(--white);
-      font-size: 1.1rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 10px;
+      width: 48px; height: 48px; border-radius: 50%; background: var(--navy); color: var(--white);
+      font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
     }
+    .student-tile.selected .student-avatar { background: var(--green); }
+    .student-name { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .student-tile.selected .student-name { color: var(--green); }
 
-    .student-tile.selected .student-avatar {
-      background: var(--green);
-    }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
 
-    .omni-mode .student-tile.selected .student-avatar {
-      background: var(--blue);
-    }
-
-    .omni-mode.omni-b-mode .student-tile.selected .student-avatar {
-      background: #7c3aed;
-    }
-
-    .student-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.3;
-    }
-
-    .student-tile.selected .student-name {
-      color: var(--green);
-    }
-
-    .omni-mode .student-tile.selected .student-name {
-      color: var(--blue);
-    }
-
-    .omni-mode.omni-b-mode .student-tile.selected .student-name {
-      color: #7c3aed;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--muted);
-    }
-
-    .empty-state h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    /* ── SUBMIT BAR ── */
+    /* ── SUBMIT BAR (regular mode only) ── */
     .submit-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--white);
-      border-top: 1px solid #e5e7eb;
-      padding: 16px 20px;
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--white);
+      border-top: 1px solid #e5e7eb; padding: 16px 20px;
       padding-bottom: calc(16px + env(safe-area-inset-bottom));
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 20;
+      display: flex; align-items: center; gap: 12px; z-index: 20;
     }
-
-    .submit-count {
-      flex: 1;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .submit-count strong {
-      color: var(--text);
-      font-size: 1rem;
-    }
-
+    .submit-count { flex: 1; font-size: 0.9rem; color: var(--muted); }
+    .submit-count strong { color: var(--text); font-size: 1rem; }
     .submit-btn {
-      background: var(--red);
-      color: var(--white);
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      padding: 14px 28px;
-      cursor: pointer;
+      background: var(--red); color: var(--white); border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; padding: 14px 28px; cursor: pointer;
       transition: background 0.2s, transform 0.1s, opacity 0.2s;
     }
-
-    .submit-btn.omni-a-btn { background: var(--blue); }
-    .submit-btn.omni-b-btn { background: #7c3aed; }
-
-    .submit-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .submit-btn:not(:disabled):active { transform: scale(0.97); }
-    .submit-btn:not(:disabled):hover  { filter: brightness(0.9); }
+    .submit-btn:not(:disabled):hover  { background: #8b0a2b; }
 
     /* ── SUCCESS SCREEN ── */
     #success-screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 40px 24px;
-      background: var(--navy);
-      text-align: center;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 40px 24px; background: var(--navy); text-align: center;
     }
-
     .success-icon {
-      width: 80px;
-      height: 80px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
+      width: 80px; height: 80px; background: var(--green); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
     }
-
-    .success-icon svg {
-      width: 40px;
-      height: 40px;
-      fill: none;
-      stroke: white;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .success-title {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--white);
-      margin-bottom: 10px;
-    }
-
-    .success-sub {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.6;
-      max-width: 320px;
-      margin: 0 auto 32px;
-    }
-
-    .success-names {
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 16px 20px;
-      width: 100%;
-      max-width: 360px;
-      margin-bottom: 32px;
-      text-align: left;
-    }
-
-    .success-names-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    .success-name-item {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.85);
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
+    .success-icon.blue   { background: var(--blue); }
+    .success-icon.purple { background: var(--purple); }
+    .success-icon svg { width: 40px; height: 40px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .success-title { font-size: 1.6rem; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+    .success-sub { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 320px; margin: 0 auto 32px; }
+    .success-names { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 20px; width: 100%; max-width: 360px; margin-bottom: 32px; text-align: left; }
+    .success-names-title { font-size: 0.78rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .success-name-item { font-size: 0.9rem; color: rgba(255,255,255,0.85); padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .success-name-item:last-child { border-bottom: none; }
-
     .reset-btn {
-      background: rgba(255,255,255,0.12);
-      color: var(--white);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 14px 32px;
-      cursor: pointer;
-      transition: background 0.2s;
+      background: rgba(255,255,255,0.12); color: var(--white); border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px; font-size: 0.95rem; font-weight: 700; padding: 14px 32px; cursor: pointer; transition: background 0.2s;
     }
-
     .reset-btn:hover { background: rgba(255,255,255,0.2); }
   </style>
 </head>
@@ -549,17 +210,8 @@
   <img src="assets/logo.webp" alt="Patriot Wash N Fold" class="pin-logo" />
   <div class="pin-title">Pickup Intake</div>
   <div class="pin-subtitle">Enter your PIN to continue</div>
-  <input
-    type="text"
-    id="pin-input"
-    class="pin-input"
-    placeholder="PIN"
-    autocomplete="off"
-    autocorrect="off"
-    autocapitalize="characters"
-    spellcheck="false"
-    maxlength="10"
-  />
+  <input type="text" id="pin-input" class="pin-input" placeholder="PIN"
+    autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" maxlength="10" />
   <button class="pin-btn" id="pin-btn" onclick="checkPin()">Enter</button>
   <div class="pin-error" id="pin-error">Incorrect PIN. Try again.</div>
 </div>
@@ -577,44 +229,50 @@
 
   <!-- MODE TABS -->
   <div class="mode-tabs">
-    <button class="mode-tab active-regular" id="tab-regular" onclick="switchMode('regular')">
-      📦 Regular<br>Pickup
-    </button>
-    <button class="mode-tab" id="tab-omni-a" onclick="switchMode('omni-a')">
-      🏨 OMNI<br>Group A
-    </button>
-    <button class="mode-tab" id="tab-omni-b" onclick="switchMode('omni-b')">
-      🏨 OMNI<br>Group B
-    </button>
+    <button class="mode-tab active-regular" id="tab-regular" onclick="switchMode('regular')">📦 Regular<br>Pickup</button>
+    <button class="mode-tab" id="tab-omni-a"  onclick="switchMode('omni-a')">🏨 OMNI<br>Group A</button>
+    <button class="mode-tab" id="tab-omni-b"  onclick="switchMode('omni-b')">🏨 OMNI<br>Group B</button>
   </div>
 
   <div class="intake-body">
     <div class="intake-instructions" id="intake-instructions">
       <strong>Regular Subscribers — Drop-Off Intake</strong>
-      Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they'll automatically receive a pickup reminder text Thursday at 9:30am.
+      Tap each student who dropped off their laundry bag today. When done, tap <strong>Submit</strong> — they'll receive a pickup reminder text Thursday at 9:30am.
     </div>
 
-    <div id="student-container">
+    <!-- Regular mode: student grid -->
+    <div id="regular-container" style="display:block;">
       <div class="loading-state">
         <div class="loading-spinner"></div>
         Loading subscribers…
       </div>
     </div>
+
+    <!-- OMNI mode: send-to-all panel -->
+    <div id="omni-panel" style="display:none;">
+      <div class="omni-panel">
+        <div class="omni-count-badge blue" id="omni-count-badge">—</div>
+        <div class="omni-count-label" id="omni-count-label">students loading…</div>
+        <button class="omni-send-btn blue" id="omni-send-btn" onclick="submitOmni()" disabled>
+          📲 Send to All
+        </button>
+        <div class="omni-send-sub" id="omni-send-sub">
+          Texts all Group A students that their laundry is in the hotel lobby.
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="submit-bar">
-    <div class="submit-count">
-      <strong id="selected-count">0</strong> selected
-    </div>
-    <button class="submit-btn" id="submit-btn" disabled onclick="submitIntake()">
-      Send Texts →
-    </button>
+  <!-- Submit bar — regular mode only -->
+  <div class="submit-bar" id="submit-bar">
+    <div class="submit-count"><strong id="selected-count">0</strong> selected</div>
+    <button class="submit-btn" id="submit-btn" disabled onclick="submitRegular()">Send Texts →</button>
   </div>
 </div>
 
 <!-- ── SUCCESS SCREEN ── -->
 <div id="success-screen">
-  <div class="success-icon">
+  <div class="success-icon" id="success-icon">
     <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
   </div>
   <div class="success-title" id="success-title">Texts Sent! 🎉</div>
@@ -624,12 +282,13 @@
 </div>
 
 <script>
-  const CORRECT_PIN = 'JOE';
-  let allStudents   = [];
-  let selectedIds   = new Set();
-  let currentMode   = 'regular'; // 'regular' | 'omni-a' | 'omni-b'
+  const CORRECT_PIN  = 'JOE';
+  let allStudents    = [];
+  let selectedIds    = new Set();
+  let currentMode    = 'regular';
+  let omniStudents   = [];
 
-  // ── PIN CHECK ──
+  // ── PIN ──
   function checkPin() {
     const val = document.getElementById('pin-input').value.trim().toUpperCase();
     if (val === CORRECT_PIN) {
@@ -644,18 +303,14 @@
       setTimeout(() => { errEl.style.display = 'none'; }, 3000);
     }
   }
-
-  document.getElementById('pin-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPin();
-  });
+  document.getElementById('pin-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPin(); });
 
   // ── DATE ──
   function setDate() {
     const d = new Date();
-    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const days   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    document.getElementById('intake-date').textContent =
-      `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()}`;
+    document.getElementById('intake-date').textContent = `${days[d.getDay()]} ${months[d.getMonth()]} ${d.getDate()}`;
   }
 
   // ── SWITCH MODE ──
@@ -663,116 +318,138 @@
     currentMode = mode;
     selectedIds.clear();
 
-    // Update tabs
+    // Tab styles
     document.getElementById('tab-regular').className = 'mode-tab' + (mode === 'regular' ? ' active-regular' : '');
     document.getElementById('tab-omni-a').className  = 'mode-tab' + (mode === 'omni-a'  ? ' active-omni-a'  : '');
     document.getElementById('tab-omni-b').className  = 'mode-tab' + (mode === 'omni-b'  ? ' active-omni-b'  : '');
 
-    // Update submit button style
-    const btn = document.getElementById('submit-btn');
-    btn.className = 'submit-btn' + (mode === 'omni-a' ? ' omni-a-btn' : mode === 'omni-b' ? ' omni-b-btn' : '');
+    const isOmni = mode !== 'regular';
 
-    // Update instructions + header
-    const instructions = document.getElementById('intake-instructions');
-    const headerSub    = document.getElementById('header-sub');
-    const headerTitle  = document.getElementById('header-title');
+    // Show/hide panels
+    document.getElementById('regular-container').style.display = isOmni ? 'none' : 'block';
+    document.getElementById('omni-panel').style.display        = isOmni ? 'block' : 'none';
+    document.getElementById('submit-bar').style.display        = isOmni ? 'none' : 'flex';
 
+    // Instructions
+    const instr = document.getElementById('intake-instructions');
     if (mode === 'regular') {
-      instructions.className = 'intake-instructions';
-      instructions.innerHTML = '<strong>Regular Subscribers — Drop-Off Intake</strong>Tap each student who dropped off their laundry bag today. Selected students turn green. When done, tap <strong>Submit</strong> — they\'ll automatically receive a pickup reminder text Thursday at 9:30am.';
-      headerTitle.textContent = 'Pickup Intake';
-      headerSub.textContent   = 'Tap students who dropped off today';
-      document.getElementById('student-container').classList.remove('omni-mode', 'omni-b-mode');
+      instr.className = 'intake-instructions';
+      instr.innerHTML = '<strong>Regular Subscribers — Drop-Off Intake</strong>Tap each student who dropped off their laundry bag today. When done, tap <strong>Submit</strong> — they\'ll receive a pickup reminder text Thursday at 9:30am.';
+      document.getElementById('header-title').textContent = 'Pickup Intake';
+      document.getElementById('header-sub').textContent   = 'Tap students who dropped off today';
     } else if (mode === 'omni-a') {
-      instructions.className = 'intake-instructions omni-a';
-      instructions.innerHTML = '<strong>OMNI Group A — Laundry Delivered</strong>Joe has arrived to drop off clean laundry in the hotel lobby. Tap all Group A students, then hit <strong>Send</strong> — they\'ll immediately receive a text that their laundry is in the lobby.';
-      headerTitle.textContent = 'OMNI Group A';
-      headerSub.textContent   = 'Tap to send delivery notifications';
-      document.getElementById('student-container').classList.add('omni-mode');
-      document.getElementById('student-container').classList.remove('omni-b-mode');
-    } else if (mode === 'omni-b') {
-      instructions.className = 'intake-instructions omni-b';
-      instructions.innerHTML = '<strong>OMNI Group B — Laundry Delivered</strong>Joe has arrived to drop off clean laundry in the hotel lobby. Tap all Group B students, then hit <strong>Send</strong> — they\'ll immediately receive a text that their laundry is in the lobby.';
-      headerTitle.textContent = 'OMNI Group B';
-      headerSub.textContent   = 'Tap to send delivery notifications';
-      document.getElementById('student-container').classList.add('omni-mode', 'omni-b-mode');
+      instr.className = 'intake-instructions omni-a';
+      instr.innerHTML = '<strong>OMNI Group A — Laundry Delivered</strong>Tap <strong>Send to All</strong> to instantly text every Group A student that their clean laundry is in the hotel lobby.';
+      document.getElementById('header-title').textContent = 'OMNI Group A';
+      document.getElementById('header-sub').textContent   = 'Send delivery notification to all';
+      document.getElementById('omni-count-badge').className = 'omni-count-badge blue';
+      document.getElementById('omni-send-btn').className    = 'omni-send-btn blue';
+      document.getElementById('omni-send-sub').textContent  = 'Texts all Group A students that their laundry is in the hotel lobby.';
+    } else {
+      instr.className = 'intake-instructions omni-b';
+      instr.innerHTML = '<strong>OMNI Group B — Laundry Delivered</strong>Tap <strong>Send to All</strong> to instantly text every Group B student that their clean laundry is in the hotel lobby.';
+      document.getElementById('header-title').textContent = 'OMNI Group B';
+      document.getElementById('header-sub').textContent   = 'Send delivery notification to all';
+      document.getElementById('omni-count-badge').className = 'omni-count-badge purple';
+      document.getElementById('omni-send-btn').className    = 'omni-send-btn purple';
+      document.getElementById('omni-send-sub').textContent  = 'Texts all Group B students that their laundry is in the hotel lobby.';
     }
 
     updateCount();
-    loadStudents();
-  }
 
-  // ── LOAD STUDENTS ──
-  async function loadStudents() {
-    const container = document.getElementById('student-container');
-    container.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div>Loading…</div>`;
-
-    try {
-      let url;
-      if (currentMode === 'regular') {
-        url = '/api/students';
-      } else if (currentMode === 'omni-a') {
-        url = '/api/omni-students?group=a';
-      } else {
-        url = '/api/omni-students?group=b';
-      }
-
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      allStudents = data.students || [];
-
-      if (allStudents.length === 0) {
-        const label = currentMode === 'regular' ? 'pwnf-subscriber' :
-                      currentMode === 'omni-a'  ? 'omni-group-a' : 'omni-group-b';
-        container.innerHTML = `
-          <div class="empty-state">
-            <h3>No students found</h3>
-            <p>No contacts with the <strong>${label}</strong> tag in GHL.</p>
-          </div>`;
-        return;
-      }
-
-      renderStudents();
-    } catch (err) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <h3>Couldn't load students</h3>
-          <p>Check your connection and try refreshing. (${err.message})</p>
-        </div>`;
+    if (mode === 'regular') {
+      loadRegularStudents();
+    } else {
+      loadOmniStudents(mode === 'omni-a' ? 'a' : 'b');
     }
   }
 
-  // ── RENDER TILES ──
-  function renderStudents() {
-    const container = document.getElementById('student-container');
+  // ── LOAD REGULAR STUDENTS ──
+  async function loadRegularStudents() {
+    const container = document.getElementById('regular-container');
+    container.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div>Loading subscribers…</div>`;
+    try {
+      const res = await fetch('/api/students');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      allStudents = data.students || [];
+      if (allStudents.length === 0) {
+        container.innerHTML = `<div class="empty-state"><h3>No active subscribers</h3><p>No contacts with the pwnf-subscriber tag in GHL.</p></div>`;
+        return;
+      }
+      renderRegularGrid();
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state"><h3>Couldn't load</h3><p>${err.message}</p></div>`;
+    }
+  }
+
+  // ── RENDER REGULAR GRID ──
+  function renderRegularGrid() {
+    const container = document.getElementById('regular-container');
+    const allSelected = selectedIds.size === allStudents.length;
+
+    const selectAllBar = document.createElement('div');
+    selectAllBar.className = 'select-all-bar';
+    selectAllBar.innerHTML = `<button class="select-all-btn" onclick="toggleSelectAll()">${allSelected ? 'Deselect All' : 'Select All'}</button>`;
+
     const grid = document.createElement('div');
     grid.className = 'student-grid';
 
     allStudents.forEach(student => {
       const tile = document.createElement('div');
-      tile.className = 'student-tile';
+      tile.className = 'student-tile' + (selectedIds.has(student.id) ? ' selected' : '');
       tile.dataset.id = student.id;
-
       const initials = ((student.firstName[0] || '') + (student.lastName[0] || '')).toUpperCase();
-
       tile.innerHTML = `
-        <div class="student-check">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
+        <div class="student-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="student-avatar">${initials}</div>
-        <div class="student-name">${student.firstName}<br>${student.lastName}</div>
-      `;
-
+        <div class="student-name">${student.firstName}<br>${student.lastName}</div>`;
       tile.addEventListener('click', () => toggleStudent(student.id, tile));
       grid.appendChild(tile);
     });
 
     container.innerHTML = '';
+    container.appendChild(selectAllBar);
     container.appendChild(grid);
   }
 
-  // ── TOGGLE SELECTION ──
+  // ── TOGGLE SELECT ALL (regular mode) ──
+  function toggleSelectAll() {
+    if (selectedIds.size === allStudents.length) {
+      selectedIds.clear();
+    } else {
+      allStudents.forEach(s => selectedIds.add(s.id));
+    }
+    renderRegularGrid();
+    updateCount();
+  }
+
+  // ── LOAD OMNI STUDENTS ──
+  async function loadOmniStudents(group) {
+    const badge = document.getElementById('omni-count-badge');
+    const label = document.getElementById('omni-count-label');
+    const btn   = document.getElementById('omni-send-btn');
+    badge.textContent = '…';
+    label.textContent = 'loading…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`/api/omni-students?group=${group}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      omniStudents = data.students || [];
+      const groupLabel = group === 'a' ? 'Group A' : 'Group B';
+      badge.textContent = omniStudents.length;
+      label.textContent = `${groupLabel} students`;
+      btn.disabled = omniStudents.length === 0;
+    } catch (err) {
+      badge.textContent = '!';
+      label.textContent = 'Error loading — check connection';
+      btn.disabled = true;
+    }
+  }
+
+  // ── TOGGLE STUDENT (regular mode) ──
   function toggleStudent(id, tile) {
     if (selectedIds.has(id)) {
       selectedIds.delete(id);
@@ -782,58 +459,30 @@
       tile.classList.add('selected');
     }
     updateCount();
+    // refresh select-all button label
+    const saBtn = document.querySelector('.select-all-btn');
+    if (saBtn) saBtn.textContent = selectedIds.size === allStudents.length ? 'Deselect All' : 'Select All';
   }
 
-  // ── UPDATE COUNT ──
   function updateCount() {
     const count = selectedIds.size;
     document.getElementById('selected-count').textContent = count;
     document.getElementById('submit-btn').disabled = count === 0;
   }
 
-  // ── SUBMIT ──
-  async function submitIntake() {
+  // ── SUBMIT REGULAR ──
+  async function submitRegular() {
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = 'Sending…';
-
     const selected = allStudents.filter(s => selectedIds.has(s.id));
-
     try {
-      let endpoint, bodyPayload;
-
-      if (currentMode === 'regular') {
-        endpoint     = '/api/intake-submit';
-        bodyPayload  = { students: selected };
-      } else {
-        const group  = currentMode === 'omni-a' ? 'a' : 'b';
-        endpoint     = '/api/omni-submit';
-        bodyPayload  = { students: selected, group };
-      }
-
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bodyPayload)
+      const res = await fetch('/api/intake-submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ students: selected })
       });
-
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      // Success screen
-      document.getElementById('intake-screen').style.display = 'none';
-      const successScreen = document.getElementById('success-screen');
-      successScreen.style.display = 'flex';
-
-      const isOmni = currentMode !== 'regular';
-      document.getElementById('success-title').textContent = isOmni ? 'Delivery Confirmed! 🎉' : 'Texts Sent! 🎉';
-      document.getElementById('success-sub').textContent = isOmni
-        ? 'Students have been notified their laundry is in the hotel lobby.'
-        : 'Selected students will receive a pickup reminder Thursday at 9:30am.';
-
-      const namesList = document.getElementById('success-names-list');
-      namesList.innerHTML = `<div class="success-names-title">Texts sent to:</div>` +
-        selected.map(s => `<div class="success-name-item">${s.firstName} ${s.lastName}</div>`).join('');
-
+      showSuccess(selected, 'regular');
     } catch (err) {
       alert(`Something went wrong: ${err.message}. Please try again.`);
       btn.disabled = false;
@@ -841,13 +490,55 @@
     }
   }
 
+  // ── SUBMIT OMNI (send to all) ──
+  async function submitOmni() {
+    const btn   = document.getElementById('omni-send-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    const group = currentMode === 'omni-a' ? 'a' : 'b';
+    try {
+      const res = await fetch('/api/omni-submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ students: omniStudents, group })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      showSuccess(omniStudents, currentMode);
+    } catch (err) {
+      alert(`Something went wrong: ${err.message}. Please try again.`);
+      btn.disabled = false;
+      btn.textContent = '📲 Send to All';
+    }
+  }
+
+  // ── SHOW SUCCESS ──
+  function showSuccess(students, mode) {
+    document.getElementById('intake-screen').style.display = 'none';
+    const screen = document.getElementById('success-screen');
+    screen.style.display = 'flex';
+
+    const icon = document.getElementById('success-icon');
+    if (mode === 'omni-a') { icon.className = 'success-icon blue'; }
+    else if (mode === 'omni-b') { icon.className = 'success-icon purple'; }
+    else { icon.className = 'success-icon'; }
+
+    document.getElementById('success-title').textContent = mode === 'regular' ? 'Submitted! 🎉' : 'Delivered! 🎉';
+    document.getElementById('success-sub').textContent = mode === 'regular'
+      ? `${students.length} student${students.length !== 1 ? 's' : ''} will get a pickup reminder Thursday at 9:30am.`
+      : `${students.length} student${students.length !== 1 ? 's' : ''} notified their laundry is in the lobby.`;
+
+    const namesList = document.getElementById('success-names-list');
+    namesList.innerHTML = `<div class="success-names-title">Texts sent to:</div>` +
+      students.map(s => `<div class="success-name-item">${s.firstName} ${s.lastName}</div>`).join('');
+  }
+
   // ── RESET ──
   function resetIntake() {
     selectedIds.clear();
+    omniStudents = [];
     document.getElementById('success-screen').style.display = 'none';
     document.getElementById('intake-screen').style.display  = 'block';
     updateCount();
-    switchMode(currentMode); // refresh current mode
+    switchMode(currentMode);
   }
 </script>
 </body>
